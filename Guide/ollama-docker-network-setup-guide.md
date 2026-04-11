@@ -52,7 +52,7 @@ mkdir -p /etc/docker/overlay/ollama/config
 mkdir -p /data/ollama
 
 # 2. Create docker-compose.yml
-cat > /etc/docker/overlay/ollama/ollama-compose.yml <<EOF
+/etc/docker/overlay/ollama/ollama-compose.yml 
 version: '3.8'
 
 services:
@@ -77,7 +77,6 @@ services:
               count: 1
               capabilities: [gpu]
     restart: unless-stopped
-EOF
 
 # 3. Start service
 sudo docker-compose -f /etc/docker/overlay/ollama/ollama-compose.yml up -d

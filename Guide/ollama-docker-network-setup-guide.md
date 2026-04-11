@@ -18,7 +18,7 @@ sudo apt update
 sudo apt install -y docker.io docker-compose nvidia-docker2 nvidia-cuda-toolkit
 
 # 2. Create Ollama service file
-sudo tee /etc/systemd/system/ollama.service > /dev/null <<EOF
+sudo tee /etc/systemd/system/ollama.service > /dev/null 
 [Unit]
 Description=Ollama Service
 After=network-online.target
@@ -32,7 +32,6 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
-EOF
 
 # 3. Start and enable service
 sudo systemctl daemon-reload
@@ -139,7 +138,7 @@ docker ps
 wsl --install -d ollama-wsl
 
 # 3. Run inside WSL
-wsl bash <<EOF
+wsl bash 
 sudo apt update
 sudo apt install -y docker.io docker-compose
 sudo mkdir -p /data/ollama
@@ -164,10 +163,8 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-EOF
 
 sudo docker-compose -f /etc/docker/overlay/ollama/ollama-compose.yml up -d
-EOF
 ```
 
 ---

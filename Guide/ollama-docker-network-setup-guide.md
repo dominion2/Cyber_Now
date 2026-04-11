@@ -27,6 +27,7 @@ After=network-online.target
 Environment="OLLAMA_HOST=0.0.0.0"
 Environment="OLLAMA_KV_CACHE_TYPE=tbq3"
 Environment="OLLAMA_FLASH_ATTENTION=1"
+Environment="OLLAMA_ORIGINS=*"
 ExecStart=/usr/local/bin/ollama serve
 Restart=always
 

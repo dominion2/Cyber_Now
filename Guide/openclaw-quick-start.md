@@ -57,7 +57,7 @@ npm install
 npm run build
 
 # Start server (default port 3000)
-npm run serve
+npm run start
 ```
 
 ### Option C: Using McPorter (Skill Management)

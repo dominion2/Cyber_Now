@@ -1,46 +1,57 @@
 import os
 import gc
+import sys
 import time
 import chromadb
 import ollama
+from pypdf import PdfReader
 from docling.document_converter import DocumentConverter
 
-# 1. UNLEASH THE CORES
-# With 128GB, we can handle multiple threads easily.
-os.environ["DOCLING_NUM_THREADS"] = "8" 
-os.environ["OMP_NUM_THREADS"] = "4"
-
-# 2. LOCAL CONFIG
-# Use PersistentClient for direct disk access (no network lag)
+# 1. OPTIMIZATION (Unleashing the 14700K)
+os.environ["DOCLING_NUM_THREADS"] = "20"
 DB_PATH = os.path.expanduser("~/chroma_db")
-client = chromadb.PersistentClient(path=DB_PATH)
-collection = client.get_or_create_collection("datascience_study")
+PDF_PATH = os.path.expanduser("~/Downloads/training_data/DataScience.pdf")
 
-# Local Ollama connection
-local_ollama = ollama.Client(host="http://localhost:11434")
+# 2. CONNECT
+try:
+    client = chromadb.PersistentClient(path=DB_PATH)
+    collection = client.get_or_create_collection("datascience_study")
+    local_ollama = ollama.Client(host="http://localhost:11434")
+except Exception as e:
+    print(f"❌ Connection Error: {e}")
+    sys.exit(1)
 
-# Update this to where you SCP'd the file
-PDF_PATH = os.path.expanduser("~/Downloads/DataScience.pdf")
+def get_last_processed_page():
+    """Checks ChromaDB for the highest page number currently indexed."""
+    try:
+        results = collection.get(include=['metadatas'])
+        if not results['metadatas']:
+            return 0
+        pages = [m.get('page', 0) for m in results['metadatas']]
+        return max(pages)
+    except Exception as e:
+        print(f"  Could not find existing progress: {e}")
+        return 0
 
 def main():
-    print(f"--- Starting HIGH-SPEED Ingestion on Server ---")
-    start_total = time.time()
-    
+    last_page = get_last_processed_page()
+    reader = PdfReader(PDF_PATH)
+    total_pages = len(reader.pages)
+        if last_page >= total_pages:
+        print(f"✅ Ingestion already complete! (Page {last_page}/{total_pages})")
+        return
+
+    print(f"--- 🔄 RESUMING FROM PAGE {last_page + 1} of {total_pages} ---")
+
     converter = DocumentConverter()
-    
-    # We can process larger batches now!
-    BATCH_SIZE = 10 
-    
-    # Get total pages (Using a simple count for the loop)
-    from pypdf import PdfReader
-    total_pages = len(PdfReader(PDF_PATH).pages)
+    BATCH_SIZE = 10
 
-    for start in range(1, total_pages + 1, BATCH_SIZE):
-        end = min(start + BATCH_SIZE - 1, total_pages)
-        print(f"🚀 Processing Pages {start}-{end}...")
+    try:
+        # MAIN PROCESSING LOOP
+        for start in range(last_page + 1, total_pages + 1, BATCH_SIZE):
+            end = min(start + BATCH_SIZE - 1, total_pages)
+            print(f"🚀 Processing Batch: {start}-{end}...")
 
-        try:
-            # Conversion happens locally with 8 threads
             result = converter.convert(PDF_PATH, page_range=(start, end))
             doc = result.document
             all_items = list(doc.iterate_items())
@@ -49,17 +60,21 @@ def main():
                 element_type = item.__class__.__name__
                 content = ""
 
-                if element_type == "TextItem":
+                if hasattr(item, "text") and element_type == "TextItem":
                     content = item.text
-                
+
                 elif element_type in ["TableItem", "PictureItem"]:
-                    # Context for Vision
-                    context = " ".join([all_items[j][0].text for j in range(max(0, i-2), min(len(all_items), i+3)) 
-                                      if hasattr(all_items[j][0], 'text')])
-                    
-                    # Local Vision call (Lightning fast compared to Wi-Fi)
+                    # --- THE VISION STATUS MESSAGE IS BACK ---
+                    print(f"   [Vision] 👁️  Analyzing {element_type} on Page {start} with Qwen 3.5...")
+
+                    # Context/Vision logic
+                    context = " ".join([
+                        all_items[j][0].text for j in range(max(0, i-2), min(len(all_items), i+3))
+                        if hasattr(all_items[j][0], 'text')
+                    ])
+
                     response = local_ollama.chat(
-                        model='qwen3.5:9b', 
+                        model='qwen3.5:9b',
                         messages=[{'role': 'user', 'content': f"Context: {context}\nSummarize this chart."}]
                     )
                     content = f"VISUAL: {response['message']['content']}"
@@ -68,17 +83,28 @@ def main():
                     collection.add(
                         documents=[content],
                         metadatas={"page": start, "source": "local_server"},
-                        ids=[f"srv_p{start}_i{i}_{time.time()}"]
+                        ids=[f"p{start}_i{i}_{time.time()}"]
                     )
 
-            # Manual RAM clear just in case, though 128GB is plenty
+            # Cleanup batch
             del result
             gc.collect()
+            print(f"✅ Batch {start}-{end} Saved to ChromaDB.")
 
-        except Exception as e:
-            print(f"⚠️ Error on batch {start}: {e}")
+    except KeyboardInterrupt:
+        # --- THE GRACEFUL EXIT ---
+        print("\n\n🛑 STOP SIGNAL RECEIVED (CTRL+C)")
+        print(f"💾 Progress saved up to Page {start-1}. You can resume later.")
+        print("👋 Exiting gracefully...")
+        sys.exit(0)
 
-    print(f"--- 🏁 FINISHED in {time.time() - start_total:.2f}s ---")
+    except Exception as e:
+        print(f"  Unexpected Error: {e}")
+        sys.exit(1)
+
+    print("--- 🏁 ALL 511 PAGES INDEXED ---")
 
 if __name__ == "__main__":
     main()
+
+                        

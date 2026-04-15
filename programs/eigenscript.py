@@ -1,3 +1,28 @@
+import os
+import chromadb
+import numpy as np
+from sklearn.decomposition import PCA
+
+# --- 1. SET UP LOCAL ACCESS ---
+DB_PATH = os.path.expanduser("~/chroma_db")
+
+def run_local_audit():
+    print(f"📡 Connecting to local database at {DB_PATH}...")
+
+    # Use PersistentClient to talk directly to the SSD
+    client = chromadb.PersistentClient(path=DB_PATH)
+
+    try:
+        # Get your Data Science collection
+        collection = client.get_collection("datascience_study")
+
+        # 2. EXTRACT DATA
+        # We need embeddings for the math and documents for the context
+        data = collection.get(include=['embeddings', 'metadatas', 'documents'])
+
+        # THE FIX: We use len() to check if the list is empty.
+        # Python handles the 'truth' of an integer (0 vs >0) without ambiguity.
+        if data['embeddings'] is None or len(data['embeddings']) == 0:
             print("❌ No embeddings found. Check if the ingestion script is finished or writing to this path.")
             return
 

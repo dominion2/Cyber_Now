@@ -1,0 +1,49 @@
+import chromadb
+import ollama
+
+# 1. SETUP
+DB_PATH = "~/chroma_db"
+client = chromadb.PersistentClient(path=DB_PATH)
+collection = client.get_collection("datascience_study")
+
+# 2. DEFINE THE QUERY FUNCTION
+def ask_the_book(question):
+    print(f"\n🔍 Searching for: {question}")
+    
+    # STEP 1: Query ChromaDB for the top 3 relevant chunks
+    # Note: If you used a custom embedding function during ingestion, 
+    # you MUST use it here too!
+    results = collection.query(
+        query_texts=[question],
+        n_results=3
+    )
+    
+    # STEP 2: Combine the context
+    context = "\n".join(results['documents'][0])
+    
+    # STEP 3: Create the 'Augmented' Prompt
+    prompt = f"""
+    You are a Data Science Assistant. Use the provided context from the textbook 
+    to answer the user's question. If the answer isn't in the context, say so.
+
+    CONTEXT FROM BOOK:
+    {context}
+
+    USER QUESTION:
+    {question}
+
+    ANSWER:
+    """
+
+    # STEP 4: Send to your 4070 Ti via Ollama
+    response = ollama.chat(
+        model='qwen3.5:9b', # Or whichever SLM you prefer
+        messages=[{'role': 'user', 'content': prompt}]
+    )
+    
+    print("-" * 30)
+    print(response['message']['content'])
+    print("-" * 30)
+
+# --- TEST IT OUT ---
+ask_the_book("Explain the difference between a Python list and a NumPy vector.")

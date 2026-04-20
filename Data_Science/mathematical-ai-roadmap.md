@@ -17,6 +17,7 @@
 9. [Variance, Regularization & Statistical Significance](#9-variance-regularization-statistical-significance)
 10. [The Semantic Bridge: Classical to Modern AI](#10-the-semantic-bridge-classical-to-modern-ai)
 11. [Summary: Your Math Journey](#11-summary-your-math-journey)
+12. [Alternative Equations from Chapter 5 Quiz](#12-alternative-equations-from-chapter-5-quiz)
 
 ---
 
@@ -1144,11 +1145,11 @@ print(cosine_sim)  # Returns values between -1 and 1
 ```
 📚 YOUR JOURNEY COMPLETE:
 ┌─────────────────────────────────────────────────────────────┐
-│  CLASSICAL DATA SCIENCE              │   MODERN AI          │
+│  CLASSICAL DATA SCIENCE              │   MODERN AI           │
 ├─────────────────────────────────────────────────────────────┤
-│  Linear Algebra → Eigenvectors       │  Embeddings          │
-│  Calculus → Gradient Descent         │  Chain Rule Training │
-│  Regression → R² Accuracy            │  Cosine Similarity   │
+│  Linear Algebra → Eigenvectors       │  Embeddings           │
+│  Calculus → Gradient Descent         │  Chain Rule Training  │
+│  Regression → R² Accuracy            │  Cosine Similarity    │
 └─────────────────────────────────────────────────────────────┘
          │                        │
          ▼                        ▼
@@ -1230,3 +1231,352 @@ Every equation you've solved is a building block for understanding how AI learns
 
 **🎓 Congratulations on completing your mathematical foundation for AI!**
 **You now understand both the classical foundations and modern applications!**
+
+---
+
+## 12. ALTERNATIVE EQUATIONS FROM CHAPTER 5 QUIZ
+
+### 📐 Alternative Regression Equation
+
+**Traditional Approach**: Manual gradient descent optimization  
+**Alternative Approach**: Uses `scipy.stats.linregress()` for closed-form solution
+
+```python
+# Alternative Formula from Chapter 5 Quiz
+from scipy.stats import linregress
+import numpy as np
+
+x = np.array([1, 2, 3, 4, 5])
+y = np.array([2.9, 4.3, 7.5, 9.3, 12.6])
+
+# Full regression equation with all statistics
+slope, intercept, r_value, p_value, std_err = linregress(x, y)
+
+print(f"Regression equation: y = {slope:.6f}x + {intercept:.6f}")
+print(f"Correlation coefficient (r): {r_value:.6f}")
+print(f"P-value: {p_value:.6f}")
+print(f"Standard Error: {std_err:.6f}")
+print(f"R-squared (r²): {r_value**2:.6f}")
+```
+
+**🎯 Key Difference**:
+- **Previous**: Manual gradient descent optimization with loops
+- **Alternative**: Uses `linregress` which provides closed-form solution
+- **Benefit**: Gets p-values, correlation, AND standard error automatically!
+
+---
+
+### 📊 Alternative Standard Error Formula
+
+**Simplified Version** (from earlier):
+```python
+# Simplified standard error
+def simplified_se(y_actual, y_predicted, n):
+    return np.sqrt(np.sum((y_actual - y_predicted)**2) / (n - 2))
+```
+
+**Complete Formula** (from Chapter 5 Quiz):
+```python
+# Complete standard error formula with 3 components
+def complete_se(x_new, x_data, y_data, y_pred_func, n):
+    """Complete standard error for prediction"""
+    y_mean = np.mean(y_data)
+    x_mean = np.mean(x_data)
+    ss_x = np.sum((x_data - x_mean)**2)  # Sum of squared deviations
+    
+    # Complete formula: SE = sqrt(MSE * (1 + 1/n + (x_new - x_mean)²/Σ(x-mean)²))
+    mse = np.mean((y_data - y_pred_func(x_data))**2)
+    
+    se = np.sqrt(mse * (1 + 1/n + (x_new - x_mean)**2 / ss_x))
+    return se
+
+# Example usage
+x_new = 6
+se = complete_se(x_new, x_data, y_data, lambda x: slope*x + intercept, n)
+print(f"Standard error for x={x_new}: {se:.6f}")
+```
+
+**🎯 Key Components**:
+- `1` = prediction uncertainty for **new** data point (always present)
+- `1/n` = average prediction uncertainty (improves with more data)
+- `(x_new - mean)²/Σ(x-mean)²` = uncertainty for **specific** x-value
+- **This is the COMPLETE formula** often simplified in textbooks!
+
+---
+
+### 🎯 Alternative Prediction Interval Formula
+
+**Simplified Version**:
+```python
+# Basic prediction interval
+def basic_prediction_interval(x_new, predicted_y, se):
+    t_value = 2.0  # Approximate
+    return predicted_y - t_value * se, predicted_y + t_value * se
+```
+
+**Complete Formula** (from Chapter 5 Quiz):
+```python
+# Complete prediction interval with proper t-distribution
+def prediction_interval(x_new, x_data, y_data, slope, intercept, n, confidence=0.95):
+    """Complete prediction interval formula"""
+    from scipy.stats import t
+    
+    # Degrees of freedom for simple linear regression: n - 2
+    df = n - 2
+    
+    # Critical t-value
+    t_value = t.ppf(1 - (1 - confidence) / 2, df)
+    
+    # Calculate standard error of estimate (MSE)
+    y_pred = slope * x_data + intercept
+    mse = np.sum((y_data - y_pred)**2) / df
+    se_estimate = np.sqrt(mse)
+    
+    # Complete formula for prediction interval
+    margin = t_value * se_estimate * np.sqrt(
+        1/n + (x_new - np.mean(x_data))**2 / np.sum((x_data - np.mean(x_data))**2)
+    )
+    
+    predicted_y = slope * x_new + intercept
+    lower = predicted_y - margin
+    upper = predicted_y + margin
+    
+    return lower, upper, predicted_y
+
+# Example usage
+x_new = 6
+lower, upper, pred = prediction_interval(x_new, x_data, y_data, slope, intercept, n)
+print(f"95% Prediction Interval for x={x_new}: ({lower:.4f}, {upper:.4f})")
+print(f"Predicted value: {pred:.4f}")
+```
+
+**🎯 Key Difference**:
+- **Previous**: Simplified version using approximate t-value
+- **Alternative**: Complete formula with proper t-distribution and degrees of freedom (`n-2`)
+- **Benefit**: More accurate uncertainty bounds, especially for small samples
+
+---
+
+### 🔄 Alternative Train/Test Split Strategies
+
+**Strategy 1: 33/67 Split** (1/3 for testing):
+```python
+# 33% test, 67% train
+test_size = 1/3
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
+```
+
+**Strategy 2: 20/80 Split** (Alternative from Chapter 5 Quiz):
+```python
+# 20% test, 80% train (more training data for complex models)
+test_size = 0.20
+X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=test_size, random_state=42)
+```
+
+**Strategy 3: Stratified Split** (for classification):
+```python
+from sklearn.model_selection import train_test_split
+
+# Stratified split preserves class distribution
+X_train, X_test, Y_train, Y_test = train_test_split(
+    X, Y,
+    test_size=0.20,
+    stratify=Y,  # Maintain class proportions
+    random_state=42
+)
+```
+
+**🎯 When to Use Each**:
+- **33/67**: Traditional approach, more test data for validation
+- **20/80**: More training data, better for complex models or large datasets
+- **Stratified**: Essential for imbalanced classification problems
+
+---
+
+### 📊 Alternative R² Calculation Methods
+
+**Method 1: Using Correlation**:
+```python
+# Calculate R² from correlation coefficient
+corr = 0.957586
+r_squared = corr ** 2
+print(f"R-squared from correlation: {r_squared:.6f}")
+```
+
+**Method 2: Using model.score()** (Recommended):
+```python
+# Alternative R² calculation using model.score()
+model = LinearRegression().fit(X_train, Y_train)
+r_squared = model.score(X_test, Y_test)
+print(f"R-squared value on testing data: {r_squared:.4f}")
+```
+
+**Method 3: Manual Calculation**:
+```python
+# Manual R² calculation
+def manual_r_squared(y_actual, y_predicted):
+    ss_res = np.sum((y_actual - y_predicted)**2)  # Residual sum of squares
+    ss_tot = np.sum((y_actual - np.mean(y_actual))**2)  # Total sum of squares
+    r_squared = 1 - (ss_res / ss_tot)
+    return r_squared
+
+r_squared = manual_r_squared(Y_test, model.predict(X_test))
+print(f"Manual R-squared: {r_squared:.4f}")
+```
+
+**🎯 Key Difference**:
+- **From correlation**: Simple but only works for single linear relationship
+- **model.score()**: Built-in scikit-learn method, handles multivariate cases
+- **Manual calculation**: Educational, shows the math behind it
+
+---
+
+### 🎲 Alternative Cross-Validation Methods
+
+**Method 1: K-Fold** (Standard):
+```python
+from sklearn.model_selection import KFold, cross_val_score
+
+kfold = KFold(n_splits=5, shuffle=True, random_state=42)
+results = cross_val_score(model, X, Y, cv=kfold, scoring='r2')
+print(f"K-Fold CV R² scores: {results}")
+print(f"Mean R²: {results.mean():.4f} (stdev: {results.std():.4f})")
+```
+
+**Method 2: ShuffleSplit** (Random):
+```python
+from sklearn.model_selection import ShuffleSplit
+
+# More random splits for better estimation
+splitter = ShuffleSplit(n_splits=10, test_size=0.2, random_state=42)
+results = cross_val_score(model, X, Y, cv=splitter, scoring='r2')
+print(f"ShuffleSplit CV R² scores: {results}")
+```
+
+**Method 3: Leave-One-Out** (LOO):
+```python
+from sklearn.model_selection import LeaveOneOut
+
+# Extreme case: leave out 1 sample at a time
+loo = LeaveOneOut()
+results = cross_val_score(model, X, Y, cv=loo, scoring='r2')
+print(f"LOO CV R² scores: {results}")
+print(f"Mean R²: {results.mean():.4f}")
+```
+
+**🎯 When to Use Each**:
+- **K-Fold**: Standard, good balance of bias/variance
+- **ShuffleSplit**: More randomness, good for preliminary testing
+- **LOO**: Maximum bias reduction, very computationally expensive
+
+---
+
+### ⚠️ Alternative Ridge & Lasso Formulations
+
+**Ridge Regression (L2 Regularization)**:
+```python
+from sklearn.linear_model import Ridge
+
+# Ridge adds L2 penalty: ||w||²
+ridge = Ridge(alpha=1.0).fit(X, y)
+print(f"Ridge coefficients: {ridge.coef_}")
+print(f"Ridge shrinks but doesn't zero out coefficients")
+
+# Complete Ridge loss function
+def ridge_loss(w, X, y, alpha):
+    """Complete Ridge loss with L2 penalty"""
+    mse = np.mean((y - X @ w)**2)
+    l2_penalty = alpha * np.sum(w**2)
+    return mse + l2_penalty
+```
+
+**Lasso Regression (L1 Regularization)**:
+```python
+from sklearn.linear_model import Lasso
+
+# Lasso adds L1 penalty: ||w||₁
+lasso = Lasso(alpha=0.1).fit(X, y)
+print(f"Lasso coefficients: {lasso.coef_}")
+print(f"Non-zero coefficients: {np.sum(lasso.coef_ != 0)}")
+
+# Complete Lasso loss function
+def lasso_loss(w, X, y, alpha):
+    """Complete Lasso loss with L1 penalty"""
+    mse = np.mean((y - X @ w)**2)
+    l1_penalty = alpha * np.sum(np.abs(w))
+    return mse + l1_penalty
+```
+
+**🎯 Key Difference**:
+- **Ridge (L2)**: Shrinks coefficients toward zero but never exactly zero
+- **Lasso (L1)**: Can zero out coefficients (feature selection)
+- **Elastic Net**: Combines both L1 and L2 penalties
+
+---
+
+### 📊 Multiple Linear Regression (Multiple Features)
+
+**Simple Linear Regression** (1 feature):
+```python
+# y = mx + b (one feature)
+from sklearn.linear_model import LinearRegression
+
+X = df[['feature1']]  # Single column
+y = df['target']
+model = LinearRegression().fit(X, y)
+```
+
+**Multiple Linear Regression** (multiple features):
+```python
+# y = b + m1*x1 + m2*x2 + ... + mn*xn (multiple features)
+X = df[['feature1', 'feature2', 'feature3']]  # Multiple columns
+y = df['target']
+model = LinearRegression().fit(X, y)
+
+print(f"Intercept (b): {model.intercept_:.6f}")
+print(f"Coefficients (m): {model.coef_}")
+print(f"Equation: y = {model.intercept_:.4f} + {', '.join([f'{model.coef_[i]:.4f}x{i+1}' for i in range(len(model.coef_))])}")
+```
+
+**Interpretation**:
+- Each coefficient shows how that feature affects the outcome
+- With many features, coefficients can become unstable (need regularization!)
+
+---
+
+### 📋 Comparison Table: Alternative Methods
+
+| Method | Formula | When to Use | Pros | Cons |
+|--------|---------|-------------|------|------|
+| **Gradient Descent** | Loop optimization | Large datasets, neural networks | Flexible, scalable | Slow, needs tuning |
+| **Closed-Form (linregress)** | `(XᵀX)⁻¹Xᵀy` | Small-medium datasets | Fast, gives stats | Doesn't scale |
+| **Ridge (L2)** | `||w||₂²` penalty | Multicollinear features | Stable coefficients | Doesn't select features |
+| **Lasso (L1)** | `||w||₁` penalty | Feature selection | Zeroes irrelevant features | Not stable with collinearity |
+| **Elastic Net** | `λ₁||w||₁ + λ₂||w||₂²` | Both issues | Best of both worlds | Two hyperparameters |
+
+**🎯 Recommendation**:
+- Use **closed-form** for small datasets with statistical inference
+- Use **gradient descent** for large datasets or neural networks
+- Use **Ridge** when features are correlated
+- Use **Lasso** when you want automatic feature selection
+- Use **Elastic Net** when you want both properties
+
+---
+
+🎓 **YOU HAVE COMPLETED YOUR MATH JOURNEY!**
+
+Every mathematical concept you've studied connects directly to building real AI systems!
+From functions and derivatives to matrices and probability distributions -
+you now understand the complete mathematical foundation for data science and artificial intelligence!
+
+---
+
+**📖 Study Tips**:
+- Practice each concept with code examples
+- Build simple models to see math in action
+- Connect classical math to modern AI applications
+- Use this roadmap as your reference guide
+
+**Good luck on your journey to becoming an AI practitioner!**
+
+---

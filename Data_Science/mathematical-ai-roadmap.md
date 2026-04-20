@@ -1145,11 +1145,11 @@ print(cosine_sim)  # Returns values between -1 and 1
 ```
 📚 YOUR JOURNEY COMPLETE:
 ┌─────────────────────────────────────────────────────────────┐
-│  CLASSICAL DATA SCIENCE              │   MODERN AI           │
+│  CLASSICAL DATA SCIENCE              │   MODERN AI          │
 ├─────────────────────────────────────────────────────────────┤
-│  Linear Algebra → Eigenvectors       │  Embeddings           │
-│  Calculus → Gradient Descent         │  Chain Rule Training  │
-│  Regression → R² Accuracy            │  Cosine Similarity    │
+│  Linear Algebra → Eigenvectors       │  Embeddings          │
+│  Calculus → Gradient Descent         │  Chain Rule Training │
+│  Regression → R² Accuracy            │  Cosine Similarity   │
 └─────────────────────────────────────────────────────────────┘
          │                        │
          ▼                        ▼

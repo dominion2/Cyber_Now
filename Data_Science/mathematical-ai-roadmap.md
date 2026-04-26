@@ -1145,11 +1145,11 @@ print(cosine_sim)  # Returns values between -1 and 1
 ```
 📚 YOUR JOURNEY COMPLETE:
 ┌─────────────────────────────────────────────────────────────┐
-│  CLASSICAL DATA SCIENCE              │   MODERN AI          │
+│  CLASSICAL DATA SCIENCE              │   MODERN AI           │
 ├─────────────────────────────────────────────────────────────┤
-│  Linear Algebra → Eigenvectors       │  Embeddings          │
-│  Calculus → Gradient Descent         │  Chain Rule Training │
-│  Regression → R² Accuracy            │  Cosine Similarity   │
+│  Linear Algebra → Eigenvectors       │  Embeddings           │
+│  Calculus → Gradient Descent         │  Chain Rule Training  │
+│  Regression → R² Accuracy            │  Cosine Similarity    │
 └─────────────────────────────────────────────────────────────┘
          │                        │
          ▼                        ▼
@@ -1179,7 +1179,372 @@ print(cosine_sim)  # Returns values between -1 and 1
 
 ---
 
+## 13. PYTHON LIBRARIES REFERENCE
+
+### 13.1 SYMPY Library (Symbolic Mathematics)
+```python
+# LINEAR FUNCTION - Solving for y
+from sympy import *
+
+x = symbols('x')
+f = 2*x + 1
+plot(f)
+
+# FUNCTION INVOLVING EXPONENT
+f = x**2 + 1
+plot(f)
+
+# 2D PARABOLA
+plot(x**2)
+
+# 3D SURFACES
+x, y = symbols('x y')
+f = x**2 + y**2
+plot3d(f)  # Paraboloid in 3D space
+
+# SUMMATION
+summation = sum(2*i for i in range(1,6))
+print(summation)
+
+# SIMPLIFY EXPRESSIONS
+expr = x**2 / x**5
+print(expr)  # Automatically simplifies to 1/x**3
+
+# LOGARITHMS
+# a^x = b, log_a(b) = x
+from math import log
+x = log(8, 2)  # 2 raised to what power gives 8?
+print(x)  # 3.0
+
+# NATURAL LOGARITHMS
+# ln(10) = log_e(10)
+from math import exp, log
+log_e_10 = log(10)  # e raised to what power gives 10?
+print(log_e_10)  # 2.302585092994046
+
+# EULER'S NUMBER (e = 2.71828)
+from math import exp
+e = 2.71828
+a = 100 * exp(0.20 * 2.0)  # Continuous compounding
+print(a)  # 149.18246976412703
+
+# LIMITS
+from sympy import limit, oo
+f = 1/x
+result = limit(f, x, oo)  # Limit as x approaches infinity
+print(result)  # 0
+
+# DERIVATIVES - Using limits
+f = x**2
+def derivative_x(f, x, step_size):
+    m = (f(x + step_size) - f(x)) / step_size
+    return m
+
+slope_at_2 = derivative_x(f, 2, 0.00001)
+print(slope_at_2)  # ~4.0
+
+# PARTIAL DERIVATIVES
+x, y = symbols('x y')
+f = 2*x**3 + 3*y**3
+dx_f = diff(f, x)  # 6*x**2
+dy_f = diff(f, y)  # 9*y**2
+
+# THE CHAIN RULE
+x = symbols('x')
+z = (x**2 + 1)**3 - 2
+dz_dx = diff(z, x)
+print(dz_dx)  # 6*x*(x**2 + 1)**2
+
+# INTEGRALS - Approximation
+def approximate_integral(a, b, n, func):
+    delta_x = (b - a) / n
+    total_sum = 0
+    for i in range(1, n + 1):
+        midpoint = a + (i - 0.5) * delta_x
+        total_sum += func(midpoint)
+    return total_sum * delta_x
+
+area = approximate_integral(a=0, b=1, n=100, func=lambda x: x**2 + 1)
+print(f"Calculated Area: {area}")
+
+# USING LIMITS TO CALCULATE DERIVATIVES
+x, s = symbols('x s')  # s is step size
+f = x**2
+slope_f = (f.subs(x, x + s) - f) / s
+result = limit(slope_f, s, 0)  # Returns 2*x
+print(result)  # 2*x
+
+# DERIVATIVES MANUAL CALCULATION
+# Using limits: lim as s→0 of (f(x+s)-f(x))/s
+# This is the fundamental definition of a derivative!
+```
+
+### 13.2 SCIPY Library (Statistics & Distributions)
+```python
+from scipy.stats import binom, beta, norm, t
+
+# BINOMIAL DISTRIBUTION
+# Measures how likely k successes can happen out of n trials
+def binomial_distribution(n, p):
+    for k in range(n + 1):
+        probability = binom.pmf(k, n, p)
+        print(f"{k} successes: {probability:.4f}")
+
+# BETA DISTRIBUTION
+# Allows us to see likelihood of different underlying probabilities
+def beta_distribution(a, b):
+    left_tail = beta.cdf(0.90, a, b)  # Area up to 90%
+    right_tail = 1 - beta.cdf(0.90, a, b)
+    print(f"Left tail (confidence): {left_tail}")
+    print(f"Right tail (chance): {right_tail}")
+
+# NORMAL DISTRIBUTION
+mean = 64.43
+std_dev = 2.99
+
+# CDF: Cumulative probability
+probability = norm.cdf(66, mean, std_dev) - norm.cdf(62, mean, std_dev)
+
+# ICDF (Percentile)
+x_95th = norm.ppf(0.95, mean, std_dev)  # 95th percentile
+
+# NORMAL PDF (Probability Density Function)
+def normal_pdf(x, mean, std):
+    return (1.0 / (2.0 * np.pi * std**2))**0.5 * \
+           np.exp(-((x-mean)**2) / (2*std**2))
+
+# Z-SCORES
+def z_score(x, mean, std):
+    return (x - mean) / std
+
+# INVERSE CDF
+x_value = norm.ppf(0.95, loc=mean, scale=std_dev)
+print(f"95th percentile: {x_value}")
+
+# ONE-TAILED P-VALUE
+p_value = norm.cdf(16, mean, std_dev)  # Probability of 16 or less
+two_tail_p_value = p_value + (1.0 - norm.cdf(20, mean, std_dev))
+
+# T-DISTRIBUTION (Small samples)
+def critical_t_value(n):
+    lower = t.ppf(0.025, df=n-1)
+    upper = t.ppf(0.975, df=n-1)
+    return lower, upper
+
+# CONFIDENCE INTERVALS
+def confidence_interval(p, sample_mean, sample_std, n):
+    lower, upper = critical_z_value(p)
+    lower_ci = lower * (sample_std / np.sqrt(n))
+    upper_ci = upper * (sample_std / np.sqrt(n))
+    return sample_mean - lower_ci, sample_mean + upper_ci
+
+```
+
+### 13.3 NUMPY Library (Numerical Computing)
+```python
+import numpy as np
+
+# CREATING VECTORS
+v3d = np.array([4, 1, 2])  # 3D vector
+v5d = np.array([6, 1, 5, 8, 3])  # 5D vector
+
+# VECTOR OPERATIONS
+v = np.array([3, 2])
+w = np.array([2, -1])
+v_plus_w = v + w  # [5, 1]
+scaled_v = 2.0 * v  # [6, 4]
+
+# MATRIX OPERATIONS
+basis = np.array([[3, 0], [0, 2]])
+v = np.array([1, 1])
+new_v = basis.dot(v)  # [3, 2]
+
+# MATRIX TRANSFORMATIONS
+i_hat = np.array([2, 0])
+j_hat = np.array([0, 3])
+basis = np.array([i_hat, j_hat]).transpose()
+v = np.array([2, 1])
+new_v = basis.dot(v)  # [4, 3]
+
+# COMBINING TRANSFORMATIONS
+transform1 = np.array([[0, 1], [-1, 0]]).transpose()
+transform2 = np.array([[1, 0], [1, 1]]).transpose()
+combined = transform2 @ transform1  # Apply transformations in order
+result = combined.dot(v)
+
+# DETERMINANTS
+from numpy.linalg import det
+basis = np.array([[1, 0], [1, 1]]).transpose()
+determinant = det(basis)  # 1.0 (no contraction/expansion)
+
+# EIGENDECOMPOSITION
+A = np.array([[1, 2], [3, 4]])
+eigenvals, eigenvects = np.linalg.eig(A)
+print(f"Eigenvalues: {eigenvals}")
+print(f"Eigenvectors: {eigenvects}")
+
+# SOLVING LINEAR SYSTEMS
+A = np.array([[4, 2, 4], [5, 3, 7], [9, 3, 6]])
+b = np.array([44, 56, 72])
+X = np.linalg.inv(A).dot(b)
+print(f"Solution: {X}")  # [2, 23, -8]
+
+# QR DECOMPOSITION
+Q, R = np.linalg.qr(X)
+# More numerically stable than direct inversion
+```
+
+### 13.4 PANDAS Library (Data Manipulation)
+```python
+import pandas as pd
+
+# LOADING CSV DATA
+df = pd.read_csv('data.csv', header=0)
+
+# EXTRACTING FEATURES AND TARGETS
+X = df.iloc[:, :-1].values  # All columns except last
+y = df.iloc[:, -1].values   # Last column
+
+# DATA MANIPULATION
+X_train, X_test = X[:, :2], X[:, 2:]  # Split data
+Y_train, Y_test = y[:2], y[2:]       # Split target
+
+# CORRELATION MATRIX
+correlations = df.corr(method='pearson')
+print(correlations)
+
+# CALCULATING CORRELATION FROM SCRATCH
+from math import sqrt
+points = list(pd.read_csv('data.csv').itertuples())
+n = len(points)
+
+numerator = n * sum(p.x * p.y for p in points) \
+          - sum(p.x for p in points) * sum(p.y for p in points)
+
+denominator = sqrt(n*sum(p.x**2 for p in points) - \
+                    sum(p.x for p in points)**2) * \
+               sqrt(n*sum(p.y**2 for p in points) - \
+                    sum(p.y for p in points)**2)
+
+corr = numerator / denominator
+print(f"Correlation coefficient: {corr}")
+
+# MEAN, MEDIAN, MODE
+sample = [1, 3, 2, 5, 7, 0, 2, 3]
+mean = sum(sample) / len(sample)
+
+# Weighted mean
+samples = [90, 80, 63, 87]
+weights = [0.20, 0.20, 0.20, 0.40]
+weighted_mean = sum(s * w for s, w in zip(samples, weights)) / sum(weights)
+
+# Median
+def median(values):
+    ordered = sorted(values)
+    n = len(ordered)
+    mid = int(n/2) - 1 if n % 2 == 0 else int(n/2)
+    if n % 2 == 0:
+        return (ordered[mid] + ordered[mid+1]) / 2.0
+    else:
+        return ordered[mid]
+
+# Variance and Standard Deviation
+def variance(values):
+    mean = sum(values)/len(values)
+    return sum((v - mean) ** 2 for v in values) / len(values)
+
+def std_dev(values):
+    return np.sqrt(variance(values))
+
+```
+
+### 13.5 VISUALIZATION LIBRARIES
+```python
+import matplotlib.pyplot as plt
+import plotly.express as px
+
+# LINE PLOTS
+x_values = [0, 1, 2, 3]
+y_values = [2*0+1, 2*1+1, 2*2+1, 2*3+1]
+plt.plot(x_values, y_values)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Linear Function')
+plt.show()
+
+# SCATTER PLOTS
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 6, 8, 10]
+plt.scatter(x, y)
+plt.show()
+
+# HISTOGRAM - CENTRAL LIMIT THEOREM
+sample_size = 31
+sample_count = 10000
+x_values = [sum([np.random.uniform(0.0, 1.0) for i in range(sample_size)]) \
+            / sample_size for _ in range(sample_count)]
+
+fig = px.histogram(x=x_values, nbins=20)
+fig.show()
+
+# 3D SURFACE PLOTS
+from sympy.plotting import plot3d
+x, y = symbols('x y')
+f = x**2 + y**2
+plot3d(f)
+
+```
+
+### 13.6 SKLEARN LIBRARY (Machine Learning)
+```python
+from sklearn.linear_model import LinearRegression, Ridge, Lasso
+from sklearn.model_selection import train_test_split, KFold, cross_val_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import make_regression
+
+# TRAIN/TEST SPLIT
+X, y = make_regression(n_samples=100, n_features=1, noise=0.1)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.33, random_state=42
+)
+
+# MODEL TRAINING
+model = LinearRegression()
+model.fit(X_train, y_train)
+print(f"Coefficient: {model.coef_[0]}")
+print(f"Intercept: {model.intercept_}")
+
+# EVALUATION
+r_squared = model.score(X_test, y_test)
+print(f"R² on test set: {r_squared:.4f}")
+
+# CROSS-VALIDATION
+kfold = KFold(n_splits=3, random_state=7, shuffle=True)
+results = cross_val_score(model, X, y, cv=kfold)
+print(f"CV Results: {results}")
+print(f"Mean CV: {results.mean():.4f}")
+
+# RIDGE REGRESSION (Regularization)
+ridge = Ridge(alpha=1.0)
+ridge.fit(X_train, y_train)
+print(f"Ridge coefficients: {ridge.coef_}")
+
+# LASSO REGRESSION (Feature Selection)
+lasso = Lasso(alpha=0.5)
+lasso.fit(X_train, y_train)
+print(f"Lasso coefficients: {lasso.coef_}")
+print(f"Non-zero coefficients: {np.sum(lasso.coef_ != 0)}")
+
+# STANDARDIZATION
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+```
+
+---
+
 ## 11. SUMMARY: YOUR MATH JOURNEY
+
+The summary content remains unchanged...
 
 ### 🎯 The Complete Mathematical Foundation for AI
 

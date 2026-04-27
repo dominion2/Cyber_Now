@@ -45,13 +45,13 @@ A deep ASCII scan (`rabin2 -zz`) located a massive jumbled string table at **`0x
 
 ### Locate the Synchronization Point:
 ```bash
-r2 -q -c "/x C6A579EA" ./nW0eNf35ZjkI6w
+r2 -q -c '/x C6A579EA' ./nW0eNf35ZjkI6w
 ```
 
 ### Inspect the Encryption Seed:
 ```bash
 # View the 16 bytes immediately following the marker
-r2 -q -n -c "s 0x405a; px 16" ./nW0eNf35ZjkI6w
+r2 -q -n -c 's 0x405a; px 16' ./nW0eNf35ZjkI6w
 ```
 
 ### Identify the String Table:

@@ -18,6 +18,7 @@
 10. [The Semantic Bridge: Classical to Modern AI](#10-the-semantic-bridge-classical-to-modern-ai)
 11. [Summary: Your Math Journey](#11-summary-your-math-journey)
 12. [Alternative Equations from Chapter 5 Quiz](#12-alternative-equations-from-chapter-5-quiz)
+13. [Python Libraries Reference](#13-python-libraries-reference)
 
 ---
 

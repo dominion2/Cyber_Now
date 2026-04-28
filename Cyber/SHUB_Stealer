@@ -1,0 +1,81 @@
+import os
+
+# Content for the Markdown file
+report_content = """# SHub Stealer Malware Findings and YARA Rule
+
+## 1. Overview
+SHub Stealer is a sophisticated macOS-based Information Stealer and Remote Access Trojan (RAT). It utilizes a combination of AppleScript, Bash scripts, and social engineering ("ClickFix" technique) to harvest sensitive user data and maintain persistent access to the victim's machine.
+
+## 2. Technical Findings
+Based on the deep-dive analysis, the following technical indicators and behavioral patterns define SHub Stealer:
+
+### 2.1 Infrastructure & C2
+- **Primary Domain**: `mendalik.com`
+- **Exfiltration Gate**: `https://mendalik[.]com/gate`
+- **Chunked Upload Gate**: `https://mendalik[.]com/gate/chunk`
+- **Heartbeat Endpoint**: `https://mendalik[.]com/api/bot/heartbeat`
+- **Event Logging**: `https://mendalik[.]com/api/debug/event`
+- **IP Discovery**: Calls to `api.ipify.org` and `icanhazip.com` (often Base64 encoded).
+
+### 2.2 Persistence Mechanisms
+- **LaunchAgent**: Creates a persistence file at `~/Library/LaunchAgents/com.google.keystone.agent.plist`.
+- **Hidden App**: Installs a masqueraded updater at `~/Library/Application Support/Google/GoogleUpdate.app`.
+- **Heartbeat Loop**: Checks in every 60 seconds for new commands.
+
+### 2.3 Exfiltration Logic
+- **Data Chunking**:
+    - **Single Upload Threshold**: 85,000,000 bytes (~85 MB).
+    - **Chunk Size (MAX_BYTES)**: 70,000,000 bytes (~70 MB).
+- **Hardcoded Identifiers**:
+    - `buildtxd`: `d91d844a...` (Unique build ID).
+    - `key`: `61cb9c3bd1...` (Exfiltration API key).
+- **User-Agent**: `Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36`.
+
+### 2.4 Payload & Behavior
+- **Wallet Hijacking**: Targets 23+ wallets (Exodus, Atomic, Ledger Live, etc.). It kills existing processes using `pkill -9` and replaces `app.asar` with a backdoored version.
+- **Browser Theft**: Targets 14 Chromium-based browsers and Safari for cookies, passwords, and autofill data.
+- **RAT Capabilities**: Can execute arbitrary Bash scripts downloaded to `/tmp/.c.sh`.
+
+---
+
+## 3. YARA Rule: SHub Stealer
+
+rule SHub_Stealer_MacOS {
+    meta:
+        description = "Detects findings from the SHub Stealer macOS malware campaign (2026 variant)"
+        author = "Malware_Analysis"
+        date = "2026-04-27"
+        version = "1.0"
+        hash = "befa11819994d5879c44608b16ab03c6"
+
+    strings:
+        /* Infrastructure & Domains */
+        $domain = "mendalik.com" ascii wide
+        $gate_path = "/gate" ascii
+        $heartbeat = "/api/bot/heartbeat" ascii
+        $event_log = "/api/debug/event" ascii
+
+        /* Persistence & File Artifacts */
+        $launch_agent = "com.google.keystone.agent.plist" ascii wide
+        $google_update = "GoogleUpdate.app" ascii wide
+        $split_script = "shub_split.sh" ascii
+
+        /* Logic & Thresholds */
+        $max_bytes = "MAX_BYTES=70000000" ascii
+        $threshold = "chunkThreshold to 85000000" ascii
+        $build_id = "d91d844a" ascii
+        $api_key = "61cb9c3bd1" ascii
+
+        /* Phishing & Forms */
+        $form_file = "has_valid_password" ascii
+        $form_build = "buildtxd" ascii
+
+    condition:
+        (uint32(0) == 0x212f6269 or uint32(0) == 0x23212f62) // !/bi or #!/b (Script headers)
+        and (
+            3 of ($domain, $gate_path, $heartbeat, $event_log)
+            or 2 of ($launch_agent, $google_update, $split_script)
+            or 2 of ($max_bytes, $threshold, $build_id, $api_key)
+            or all of ($form_file, $form_build)
+        )
+}

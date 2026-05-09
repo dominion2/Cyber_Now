@@ -6,7 +6,7 @@ A structured guide to the foundations of Database Management Systems (DBMS), cov
 
 ## 📊 1. What is a DBMS?
 
-A Database Management System (DBMS) provides a means of handling large amounts of data efficiently and reliably.
+A Database Management System (DBMS) is a program that helps store data and provides functionality for adding, modifying, and querying that data quickly.
 
 ### Core Adjectives (The 7 Pillars)
 
@@ -25,18 +25,20 @@ A Database Management System (DBMS) provides a means of handling large amounts o
 
 The structure and manipulation of data within a system are governed by models and languages.
 
-### Essential Components
+### Relational Databases & Tables
+Relational databases are a highly popular form of database that store data in **tables**, similar to a spreadsheet.
+* **Rows:** Represent individual items (e.g., a specific user).
+* **Columns:** Represent properties of that item (e.g., nickname, location).
+* **Relationships:** Tables can be linked using IDs (e.g., mapping a User ID to a Badge ID) to avoid repeating data and ensure efficient storage.
 
-* **Data Model:** The mathematical description of data structure.
-    * *Relational:* Data as sets of records (tables).
-    * *XML:* Hierarchical labeled values.
-    * *Graph:* Nodes and edges.
+### Essential Components
+* **Data Model:** The mathematical description of data structure (Relational, XML, or Graph).
 * **Schema vs. Data:**
-    * **Schema:** The static structure/type definition (e.g., Student ID, GPA).
+    * **Schema:** The static structure/type definition. Defined early and changes rarely.
     * **Data:** The dynamic content stored within the schema.
-* **Languages:**
+* **SQL (Structured Query Language):** The most popular language designed entirely for accessing and interacting with databases.
     * **DDL (Data Definition):** Used to set up and modify the schema structure.
-    * **DML (Data Manipulation):** Used for querying and modifying the records.
+    * **DML (Data Manipulation):** Used for querying, adding, and modifying records.
 
 ---
 
@@ -45,7 +47,6 @@ The structure and manipulation of data within a system are governed by models an
 The lifecycle of a database involves different specialists focusing on implementation, design, and upkeep.
 
 ### Core Personas
-
 * **Database Implementer:** Builds the underlying DBMS software engines.
 * **Database Designer:** Establishes the specific schema for an application's needs.
 * **Application Developer:** Writes programs that interface between users and the data.
@@ -59,8 +60,9 @@ The lifecycle of a database involves different specialists focusing on implement
 | :--- | :--- | :--- |
 | **Frameworks** | Django, Ruby on Rails | Environments that generate database calls. |
 | **Middleware** | App Servers, Web Servers | Helps applications interact with the DBMS. |
+| **SQL Implementations** | SQLite, PostgreSQL, MySQL | Specific systems used to run SQL queries. |
 | **Data Processing** | Hadoop | Processes data stored in flat files. |
 
 ---
 
-*Based on Stanford University's Introduction to Databases course.*
+*Based on Stanford University's Introduction to Databases and Khan Academy's Intro to SQL.*

@@ -255,32 +255,110 @@ df['Normalized'] = df['Freq (Hz)'] / df['Freq (Hz)'].mean()
 ```
 
 ### 5.2 NumPy: The Power of Arrays
-NumPy provides high-performance multidimensional arrays and tools for working with them.
+NumPy (Numerical Python) is the fundamental package for scientific computing in Python. It provides a high-performance multidimensional array object (`ndarray`) and tools for working with these arrays.
 
-#### A. Array Creation & Basics
+#### A. Array Attributes & Characteristics
+NumPy arrays are homogeneous (all elements must be of the same type). Dimensions are called **axes**, and the number of axes is the **rank**.
+
 ```python
 import numpy as np
 
-# Create a 1D Array
-arr = np.array([1, 2, 3, 4, 5])
+arr = np.array([[1, 2, 3], [4, 5, 6]])
 
-# Create a 2D Matrix
-matrix = np.array([[1, 2], [3, 4]])
-
-# Fast Data Generation
-zeros = np.zeros((3, 3))       # 3x3 matrix of 0s
-ones = np.ones((2, 2))         # 2x2 matrix of 1s
-range_arr = np.arange(0, 10, 2) # [0, 2, 4, 6, 8]
+print(arr.ndim)   # Number of dimensions (axes) -> 2
+print(arr.shape)  # Dimensions of the array -> (2, 3)
+print(arr.size)   # Total number of elements -> 6
+print(arr.dtype)  # Data type of elements -> e.g., int64
 ```
 
-#### B. Math & Randomness
-```python
-# Element-wise operations (Blazing fast compared to loops)
-result = arr * 2  # Multiplies every item by 2
+#### B. Array Creation Techniques
+Beyond basic lists, NumPy offers placeholders to avoid expensive "growing" of arrays.
 
-# Generating Random Data (for simulations/testing)
-rand_vals = np.random.rand(5)       # 5 values between 0 and 1
-rand_ints = np.random.randint(1, 100, 10) # 10 ints from 1-99
+```python
+# From List/Tuple with explicit type
+a = np.array([1, 2, 3], dtype='float')
+
+# Placeholders
+zeros = np.zeros((3, 4))        # 3x4 matrix of 0s
+ones = np.ones((2, 2))          # 2x2 matrix of 1s
+full = np.full((3, 3), 7)       # 3x3 matrix filled with 7s
+empty = np.empty((2, 2))        # Uninitialized (values vary)
+
+# Sequences
+seq = np.arange(0, 30, 5)       # [0, 5, 10, 15, 20, 25] (step specified)
+lin = np.linspace(0, 5, 10)     # 10 values between 0 and 5 (num elements specified)
+
+# Random Data
+rand_vals = np.random.random((2, 2)) # Random values [0.0, 1.0)
+```
+
+#### C. Reshaping & Flattening
+You can change the shape of an array as long as the total number of elements remains the same.
+
+```python
+arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]) # (3, 4)
+
+# Reshape to 3D: (2, 2, 3)
+new_arr = arr.reshape(2, 2, 3)
+
+# Flatten: Collapse into 1D
+flat = arr.flatten() # [1, 2, 3, ..., 12]
+```
+
+#### D. Indexing & Slicing
+NumPy supports advanced indexing for multi-dimensional data.
+
+```python
+arr = np.array([[-1, 2, 0, 4], [4, -0.5, 6, 0], [2.6, 0, 7, 8]])
+
+# 1. Slicing: [rows, columns]
+temp = arr[:2, ::2] # First 2 rows, every alternate column
+
+# 2. Integer Indexing: Pass lists for each dimension
+# Elements at (0,3), (1,2), (2,1)
+picked = arr[[0, 1, 2], [3, 2, 1]]
+
+# 3. Boolean Indexing: Filter by condition
+filtered = arr[arr > 0]
+```
+
+#### E. Basic Operations (Element-wise & Unary)
+NumPy operations are "vectorized," making them significantly faster than standard Python loops.
+
+```python
+a = np.array([1, 2, 3])
+b = np.array([4, 5, 6])
+
+# Binary Operators (Element-wise)
+print(a + b)  # [5, 7, 9]
+print(a * b)  # [4, 10, 18]
+# matrix_prod = a.dot(b) # Dot product
+
+# Unary Operators (ndarray methods)
+arr = np.array([[1, 5, 6], [4, 7, 2]])
+print(arr.max())            # Global max
+print(arr.min(axis=0))      # Column-wise minimum
+print(arr.sum(axis=1))      # Row-wise sum
+print(arr.cumsum(axis=1))   # Cumulative sum along rows
+
+# Universal Functions (ufunc)
+np.sin(a)
+np.exp(a)
+np.sqrt(a)
+```
+
+#### F. Sorting Arrays
+```python
+arr = np.array([[1, 4, 2], [3, 4, 6], [0, -1, 5]])
+
+# Simple sort (default axis is last axis)
+sorted_all = np.sort(arr, axis=None) # Flattened sorted array
+row_sort = np.sort(arr, axis=1)      # Each row sorted independently
+
+# Structured Sorting (by field)
+data = np.array([('Jason', 2009, 8.5), ('Alice', 2008, 8.7)],
+                dtype=[('name', 'U10'), ('year', 'i4'), ('cgpa', 'f4')])
+sorted_data = np.sort(data, order='year')
 ```
 
 ### 5.3 SciPy: Scientific Computing
@@ -313,7 +391,8 @@ t_stat, p_val = stats.ttest_ind(group_a, group_b)
 ---
 
 **Created**: 📅 2026-05-23
-**Version**: 1.1 (UMGC Module 2 Integrated)
+**Last Updated**: 📅 2026-06-11
+**Version**: 1.2 (UMGC NumPy Tutorials Integrated)
 
 ---
 

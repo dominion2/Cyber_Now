@@ -285,6 +285,26 @@ monthly_avg = df['Value'].resample('M').mean()
 moving_avg = df['Value'].rolling(window=7).mean()
 ```
 
+#### H. Advanced Data Manipulation
+High-level techniques for complex data engineering and reporting.
+
+```python
+# 1. Merging & Joining (SQL-like)
+# how='inner', 'outer', 'left', 'right'
+df_merged = pd.merge(df1, df2, on='Key_Column', how='inner')
+
+# 2. Concatenation (Stacking)
+df_stacked = pd.concat([df1, df2], axis=0) # Vertical
+df_side = pd.concat([df1, df2], axis=1)    # Horizontal
+
+# 3. Pivot Tables (Spreadsheet-style)
+pivot = df.pivot_table(index='Category', columns='Month', values='Value', aggfunc='sum')
+
+# 4. Multi-Indexing (Hierarchical)
+df.set_index(['Year', 'Month'], inplace=True)
+val = df.loc[(2023, 6)] # Access specific level
+```
+
 ### 5.2 NumPy: The Power of Arrays
 NumPy (Numerical Python) is the fundamental package for scientific computing in Python. It provides a high-performance multidimensional array object (`ndarray`) and tools for working with these arrays.
 
@@ -423,7 +443,7 @@ t_stat, p_val = stats.ttest_ind(group_a, group_b)
 
 **Created**: 📅 2026-05-23
 **Last Updated**: 📅 2026-06-12
-**Version**: 1.4 (Pandas Time-Series Analysis Integrated)
+**Version**: 1.5 (Advanced Pandas Techniques Integrated)
 
 ---
 

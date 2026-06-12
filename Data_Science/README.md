@@ -21,6 +21,7 @@ The technical path for mastering Python in the context of data analysis and mach
     - **Advanced NumPy:** Multidimensional array attributes, reshaping, and vectorized operations.
     - **Pandas for ML:** Preprocessing, One-Hot Encoding, and scikit-learn prep.
     - **Time-Series Analysis:** Datetime conversion, resampling, and rolling windows for temporal data.
+    - **Advanced Wrangling:** Merging datasets, pivot tables, and hierarchical multi-indexing.
 
 ## 🚀 Featured Production Implementations
 
@@ -32,7 +33,7 @@ A production-ready data engineering pipeline showing real-world sensor ingestion
 
 - **High-Performance Vectorized Math:** Bypassed traditional, high-overhead iterative loops in favor of Pandas and NumPy array vectorization, significantly accelerating mathematical transformations across massive datasets.
 
-- **Temporal & ML Feature Engineering:** Implemented **Time-Series resampling**, One-Hot Encoding, and deterministic classification logic to prepare raw distributions for supervised machine learning algorithms.
+- **Complex & ML Feature Engineering:** Implemented **Advanced Merging**, Time-Series resampling, One-Hot Encoding, and deterministic classification logic to prepare raw distributions for supervised machine learning algorithms.
 
 ## 🚀 Practical Projects
 
@@ -40,6 +41,7 @@ A production-ready data engineering pipeline showing real-world sensor ingestion
 A professional analysis of sensor data involving:
 - **ETL Workflows**: Programmatic transformation of raw Fahrenheit readings to Celsius.
 - **Temporal Analysis**: **Time-Series** resampling and rolling averages for trend analysis.
+- **Advanced Manipulation**: **Merging** station metadata and **Pivoting** for multi-dimensional reporting.
 - **Feature Engineering**: Categorical binning and **ML Preprocessing** (encoding, scaling, and splitting).
 - **Statistical Summarization**: Frequency distribution analysis of weekly weather patterns.
 

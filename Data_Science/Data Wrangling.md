@@ -96,6 +96,28 @@ daily_temp = df['Celsius'].resample('D').mean()
 smooth_temp = df['Celsius'].rolling(window=7).mean()
 ```
 
+### 5. Advanced Data Manipulation (Complex Wrangling)
+To handle complex data engineering tasks, the image `advanced_pandas.png` introduces high-level transformation techniques:
+
+- **Merging & Joining**: Combining multiple DataFrames into a single source of truth using shared keys (`pd.merge()`).
+- **Pivot Tables**: Reshaping data from "long" to "wide" format to summarize relationships between multiple variables (`df.pivot_table()`).
+- **Multi-Indexing**: Creating hierarchical indexes to organize data across multiple dimensions (e.g., Year > Month > Station).
+- **Concatenation**: Stack datasets vertically or horizontally using `pd.concat()`.
+
+```python
+# 1. Merge: Combine station metadata with temperature logs
+merged_df = pd.merge(df, station_info, on='USAF', how='inner')
+
+# 2. Pivot Table: Average Temperature by Month and Station
+pivot = df.pivot_table(values='Celsius', index='Month', columns='Station', aggfunc='mean')
+
+# 3. Concatenation: Stacking data from different years
+full_dataset = pd.concat([df_2016, df_2017], axis=0)
+
+# 4. Multi-Indexing: Group by multiple levels
+grouped = df.groupby(['Station', 'Month'])['Celsius'].agg(['mean', 'std'])
+```
+
 ---
 
 ## 📊 Results & Analysis

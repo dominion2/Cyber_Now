@@ -245,13 +245,44 @@ df_clean = df.dropna()
 df_filled = df.fillna(0)
 ```
 
-#### E. Quick Math & Adding Columns
-```python
-# Element-wise math (Triples every value)
-df_tripled = df * 3
+#### F. Preprocessing for Machine Learning
+Pandas is the primary tool for preparing data for scikit-learn models.
 
-# Adding a new derived column
-df['Normalized'] = df['Freq (Hz)'] / df['Freq (Hz)'].mean()
+```python
+# 1. Feature/Target Separation
+# X (Features Matrix), y (Target Vector)
+X = df.drop('Label', axis=1)
+y = df['Label']
+
+# 2. Categorical Encoding (One-Hot Encoding)
+# Converts strings/categories into binary columns
+df_encoded = pd.get_dummies(df, columns=['Category_Column'])
+
+# 3. Handling Missing Values for ML
+df.fillna(df.median(), inplace=True) # Impute missing values
+```
+
+#### G. Time-Series Analysis
+Pandas provides robust tools for handling temporal data.
+
+```python
+# 1. Convert to Datetime
+df['Date'] = pd.to_datetime(df['Date_String'])
+
+# 2. Extract Date Parts
+df['Year'] = df['Date'].dt.year
+df['Month'] = df['Date'].dt.month
+
+# 3. Time as Index (Enables slicing)
+df.set_index('Date', inplace=True)
+june_data = df['2023-06'] # Slice by month/year
+
+# 4. Resampling & Rolling
+# Aggregating by month ('M'), week ('W'), day ('D')
+monthly_avg = df['Value'].resample('M').mean()
+
+# Moving average (Smoothing)
+moving_avg = df['Value'].rolling(window=7).mean()
 ```
 
 ### 5.2 NumPy: The Power of Arrays
@@ -391,15 +422,15 @@ t_stat, p_val = stats.ttest_ind(group_a, group_b)
 ---
 
 **Created**: 📅 2026-05-23
-**Last Updated**: 📅 2026-06-11
-**Version**: 1.2 (UMGC NumPy Tutorials Integrated)
+**Last Updated**: 📅 2026-06-12
+**Version**: 1.4 (Pandas Time-Series Analysis Integrated)
 
 ---
 
 ## 11. Practical Applications
 
 To see these Python concepts in action, check out the following project:
-*   [**Temperature Data Wrangling & Classification**](./data-wrangling.md): Demonstrates the use of Python functions, loops, and conditional logic to perform unit conversion and feature engineering on raw sensor data.
+*   [**Temperature Data Wrangling & Classification**](Data%20Wrangling.md): Demonstrates the use of Python functions, loops, and conditional logic to perform unit conversion and feature engineering on raw sensor data.
 
 ---
 

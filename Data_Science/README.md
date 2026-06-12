@@ -17,25 +17,32 @@ A guide through the landscape of modern data storage and retrieval systems.
 
 ### 3. [Python for Data Science Roadmap](./Python_for_Data_Science_Roadmap.md)
 The technical path for mastering Python in the context of data analysis and machine learning.
+- **Recent Updates:** 
+    - **Advanced NumPy:** Multidimensional array attributes, reshaping, and vectorized operations.
+    - **Pandas for ML:** Preprocessing, One-Hot Encoding, and scikit-learn prep.
+    - **Time-Series Analysis:** Datetime conversion, resampling, and rolling windows for temporal data.
 
 ## 🚀 Featured Production Implementations
 
-### 🌡️ [Telemetry Data Wrangling & Automated Feature Engineering](https://www.google.com/search?q=./data-wrangling.md)
+### 🌡️ [Telemetry Data Wrangling & Automated Feature Engineering](./Data%20Wrangling.md)
 
 A production-ready data engineering pipeline showing real-world sensor ingestion, error cleaning, and algorithmic feature preparation.
 
 - **Optimized ETL Workflows:** Designed a data pipeline utilizing custom token deserialization parameters to automatically isolate and scrub background noise from messy data streams during the ingestion phase.
-    
+
 - **High-Performance Vectorized Math:** Bypassed traditional, high-overhead iterative loops in favor of Pandas and NumPy array vectorization, significantly accelerating mathematical transformations across massive datasets.
-    
-- **Machine Learning Feature Binning:** Implemented deterministic classification logic to convert continuous numerical distributions into structured, model-ready ordinal categorical labels for supervised machine learning algorithms.
+
+- **Temporal & ML Feature Engineering:** Implemented **Time-Series resampling**, One-Hot Encoding, and deterministic classification logic to prepare raw distributions for supervised machine learning algorithms.
+
 ## 🚀 Practical Projects
 
-### 🌡️ [Temperature Data Wrangling](./data-wrangling.md)
+### 🌡️ [Temperature Data Wrangling](./Data%20Wrangling.md)
 A professional analysis of sensor data involving:
 - **ETL Workflows**: Programmatic transformation of raw Fahrenheit readings to Celsius.
-- **Feature Engineering**: Implementing categorical binning for thermal comfort analysis.
+- **Temporal Analysis**: **Time-Series** resampling and rolling averages for trend analysis.
+- **Feature Engineering**: Categorical binning and **ML Preprocessing** (encoding, scaling, and splitting).
 - **Statistical Summarization**: Frequency distribution analysis of weekly weather patterns.
+
 
 ## 🎯 Production Vision
 

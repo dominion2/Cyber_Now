@@ -118,6 +118,34 @@ full_dataset = pd.concat([df_2016, df_2017], axis=0)
 grouped = df.groupby(['Station', 'Month'])['Celsius'].agg(['mean', 'std'])
 ```
 
+### 6. Data Loading & Exporting Strategies
+Professional data engineering requires moving data efficiently between multiple formats. The image `data_loading_exporting.png` details the primary Pandas functions for I/O operations:
+
+- **Multi-Format Support**:
+    - **CSV**: `pd.read_csv()` / `df.to_csv()` (Industry standard).
+    - **Excel**: `pd.read_excel()` / `df.to_excel()` (Business reporting).
+    - **SQL**: `pd.read_sql()` / `df.to_sql()` (Database integration).
+    - **JSON**: `pd.read_json()` / `df.to_json()` (Web APIs).
+
+- **Key Parameters for Robust Pipelines**:
+    - `sep`: Specify delimiters (e.g., `;` or `\t`).
+    - `encoding`: Handle text encoding (e.g., `utf-8`, `latin1`).
+    - `chunksize`: Load massive files in manageable pieces to prevent memory overflows.
+    - `index=False`: Commonly used when exporting to prevent adding an extra ID column to CSVs.
+
+```python
+# 1. Loading with custom encoding and delimiter
+df = pd.read_csv('data.csv', sep=';', encoding='latin1')
+
+# 2. Exporting to Excel (without index)
+df.to_excel('report.xlsx', index=False)
+
+# 3. Memory Management: Loading in chunks
+chunks = pd.read_csv('massive_data.csv', chunksize=10000)
+for chunk in chunks:
+    process(chunk) # Process 10k rows at a time
+```
+
 ---
 
 ## 📊 Results & Analysis

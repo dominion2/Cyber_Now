@@ -14,6 +14,8 @@ The core roadmap connecting Calculus, Linear Algebra, and Probability to actual 
 
 ### 2. [Database Systems Roadmap](./Database_Systems_Roadmap.md)
 A guide through the landscape of modern data storage and retrieval systems.
+- **Recent Updates:**
+    - **Joins & Set Operations:** In-depth reference for INNER, LEFT, RIGHT, and FULL JOINs, plus UNION/UNION ALL logic.
 
 ### 3. [Python for Data Science Roadmap](./Python_for_Data_Science_Roadmap.md)
 The technical path for mastering Python in the context of data analysis and machine learning.
@@ -22,6 +24,7 @@ The technical path for mastering Python in the context of data analysis and mach
     - **Pandas for ML:** Preprocessing, One-Hot Encoding, and scikit-learn prep.
     - **Time-Series Analysis:** Datetime conversion, resampling, and rolling windows for temporal data.
     - **Advanced Wrangling:** Merging datasets, pivot tables, and hierarchical multi-indexing.
+    - **Data I/O Operations:** Multi-format support (CSV, Excel, SQL, JSON) and memory-efficient chunking for large datasets.
 
 ## 🚀 Featured Production Implementations
 
@@ -29,7 +32,7 @@ The technical path for mastering Python in the context of data analysis and mach
 
 A production-ready data engineering pipeline showing real-world sensor ingestion, error cleaning, and algorithmic feature preparation.
 
-- **Optimized ETL Workflows:** Designed a data pipeline utilizing custom token deserialization parameters to automatically isolate and scrub background noise from messy data streams during the ingestion phase.
+- **Optimized ETL Workflows:** Designed a data pipeline utilizing custom token deserialization parameters and **Multi-Format I/O** (CSV/Excel) to automatically isolate and scrub background noise from messy data streams.
 
 - **High-Performance Vectorized Math:** Bypassed traditional, high-overhead iterative loops in favor of Pandas and NumPy array vectorization, significantly accelerating mathematical transformations across massive datasets.
 
@@ -39,7 +42,7 @@ A production-ready data engineering pipeline showing real-world sensor ingestion
 
 ### 🌡️ [Temperature Data Wrangling](./Data%20Wrangling.md)
 A professional analysis of sensor data involving:
-- **ETL Workflows**: Programmatic transformation of raw Fahrenheit readings to Celsius.
+- **ETL Workflows**: Programmatic transformation of raw Fahrenheit readings to Celsius and **Memory-Efficient Chunking**.
 - **Temporal Analysis**: **Time-Series** resampling and rolling averages for trend analysis.
 - **Advanced Manipulation**: **Merging** station metadata and **Pivoting** for multi-dimensional reporting.
 - **Feature Engineering**: Categorical binning and **ML Preprocessing** (encoding, scaling, and splitting).

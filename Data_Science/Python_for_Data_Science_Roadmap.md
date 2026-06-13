@@ -305,6 +305,28 @@ df.set_index(['Year', 'Month'], inplace=True)
 val = df.loc[(2023, 6)] # Access specific level
 ```
 
+#### I. Data I/O Operations
+Moving data between Pandas and external storage.
+
+```python
+# 1. Reading Data
+df_csv = pd.read_csv('file.csv', sep=',', encoding='utf-8')
+df_xlsx = pd.read_excel('file.xlsx', sheet_name='Sheet1')
+df_sql = pd.read_sql('SELECT * FROM table', connection)
+df_json = pd.read_json('file.json')
+
+# 2. Exporting Data
+df.to_csv('output.csv', index=False)
+df.to_excel('output.xlsx', index=False)
+df.to_sql('table_name', connection, if_exists='replace')
+
+# 3. Handling Large Datasets (Chunking)
+reader = pd.read_csv('large_file.csv', chunksize=5000)
+for chunk in reader:
+    # Perform analysis on 5,000 rows at a time
+    pass
+```
+
 ### 5.2 NumPy: The Power of Arrays
 NumPy (Numerical Python) is the fundamental package for scientific computing in Python. It provides a high-performance multidimensional array object (`ndarray`) and tools for working with these arrays.
 
@@ -443,7 +465,7 @@ t_stat, p_val = stats.ttest_ind(group_a, group_b)
 
 **Created**: 📅 2026-05-23
 **Last Updated**: 📅 2026-06-12
-**Version**: 1.5 (Advanced Pandas Techniques Integrated)
+**Version**: 1.6 (Data I/O Operations Integrated)
 
 ---
 

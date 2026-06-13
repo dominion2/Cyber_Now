@@ -12,6 +12,8 @@ This guide demonstrates foundational and advanced **Data Wrangling** and **Featu
 ---
 
 ## 🛠️ The Data Wrangling Pipeline
+> 📚 **Purpose**: Document the step-by-step transformation of raw sensor data into model-ready features.
+> 🎯 **Goal**: Demonstrate professional ETL (Extract, Transform, Load) workflows using high-performance Python libraries.
 
 ### 1. Efficient Data Loading (Pandas)
 In professional workflows, we often deal with large datasets (like the NOAA meteorological data). Instead of loading the entire file, we select only what we need and define what "null" looks like.
@@ -149,6 +151,8 @@ for chunk in chunks:
 ---
 
 ## 📊 Results & Analysis
+> 📚 **Purpose**: Evaluate the output of the wrangling pipeline through statistical summaries and cross-station comparisons.
+> 🎯 **Goal**: Validate the integrity of the transformed data and derive actionable insights for climate reporting.
 
 ### Descriptive Statistics by Station
 Once wrangled, we can compare metrics across different locations (e.g., Helsinki vs. Rovaniemi) effortlessly.

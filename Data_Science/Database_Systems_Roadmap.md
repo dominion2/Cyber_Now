@@ -1,12 +1,13 @@
-# 🗺️ Database Systems Roadmap: A Learning Guide
+# 🗺️ Database Systems & SQL Optimization: A Learning Guide
 
-> 📚 **Purpose**: A structured guide for learning about database systems, SQL, and data science fundamentals.
-> 
-> 🎯 **Goal**: Build a solid foundation in databases and SQL for data science applications.
+> 🛡️ **Cyber_Now Lab**: A structured guide for mastering database architecture and SQL optimization to manage large-scale security logs, normalize network intelligence, and ensure high-performance data retrieval for incident response.
+
 
 ---
 
 ## 📋 Table of Contents
+> 📚 **Purpose**: Outline the structural flow of the database and SQL learning path.
+> 🎯 **Goal**: Allow users to quickly locate specific topics from theory to practical application.
 
 1. [What is a DBMS?](#1-what-is-a-database-management-system)
 2. [Intro to SQL & Data](#2-intro-to-sql--data)
@@ -17,17 +18,23 @@
 7. [Advanced Filtering: IN, Subqueries, & LIKE](#advanced-filtering-in-subqueries--like)
 8. [Aggregating Data: GROUP BY & HAVING](#aggregating-data-group-by--having)
 9. [Conditional Logic: The CASE Statement](#conditional-logic-the-case-statement)
-10. [Roles in the Ecosystem](#roles-in-the-ecosystem)
-11. [Tools & Resources](#11-tools--resources)
-12. [Changing rows with UPDATE and DELETE](#12-changing-rows-with-update-and-delete)
-13. [Altering tables after creation](#13-altering-tables-after-creation)
-14. [Make your SQL safer](#14-make-your-sql-safer)
-15. [Next Steps](#15-next-steps)
+10. [JOINing Related Tables](#10-joining-related-tables)
+11. [OUTER JOINs](#11-outer-joins)
+12. [Self Joins](#12-self-joins)
+13. [Combining Multiple Joins](#13-combining-multiple-joins)
+14. [Roles in the Ecosystem](#14-roles-in-the-ecosystem)
+15. [Tools & Resources](#15-tools--resources)
+16. [Changing rows with UPDATE and DELETE](#16-changing-rows-with-update-and-delete)
+17. [Altering tables after creation](#17-altering-tables-after-creation)
+18. [Database Administration & Safety](#18-database-administration--safety)
+19. [Next Steps](#19-next-steps)
 
 
 ---
 
 ## 1. What is a DBMS?
+> 📚 **Purpose**: Define the role and characteristics of Database Management Systems.
+> 🎯 **Goal**: Understand how software manages data storage, retrieval, and integrity.
 
 A **Database Management System (DBMS)** is software that manages databases. It provides functionality for:
 - Adding data
@@ -65,6 +72,8 @@ Design is broken into three distinct phases to ensure the database meets busines
 ---
 
 ## 2. Intro to SQL & Data
+> 📚 **Purpose**: Introduce SQL as the standard language for interacting with relational databases.
+> 🎯 **Goal**: Comprehend the core concepts of tables, rows, and columns in data storage.
 
 > 🌟 **The Golden Rule of Thumb**: Use SQL to clean, filter, and aggregate massive datasets down to a manageable size on the database server. Then, pull that refined dataset into pandas for deep-dive analysis, visualization, and machine learning.
 
@@ -88,6 +97,8 @@ Design is broken into three distinct phases to ensure the database meets busines
 ---
 
 ## 3. Understanding Tables & Relationships
+> 📚 **Purpose**: Explore how data is structured and linked across different tables.
+> 🎯 **Goal**: Master primary keys, foreign keys, and normalization to ensure data consistency.
 
 ### 3.1 Primary Keys (PK)
 A primary key is a field (or set of fields) that uniquely identifies each record in a table.
@@ -172,6 +183,8 @@ Normalization is the process of optimizing a database structure to reduce **Data
 ---
 
 ## 4. Modifying Databases: Read vs Write Operations
+> 📚 **Purpose**: Differentiate between querying data and altering database records.
+> 🎯 **Goal**: Understand the risks and requirements of data manipulation versus analysis.
 
 As we've mentioned throughout this course, there are many times we might find ourselves using SQL or a SQL-like query language on a database. We can think of some uses as "read-only operations" and other uses as "read/write operations".
 
@@ -213,6 +226,8 @@ Understanding these operations deeply is essential for maintaining data integrit
 ---
 
 ## 5. 🗣️ SQL Basics: CREATE & INSERT
+> 📚 **Purpose**: Learn the fundamental commands for building tables and adding data.
+> 🎯 **Goal**: Successfully define database schemas and populate them with initial records.
 
 ### Scenario 1: Basic Grocery List
 
@@ -292,6 +307,8 @@ INSERT INTO exercise_logs(type, minutes, calories, heart_rate) VALUES ("dancing"
 ---
 
 ## 6. SQL Queries: SELECT, ORDER BY, WHERE
+> 📚 **Purpose**: Master the core tools for retrieving and filtering data from tables.
+> 🎯 **Goal**: Write precise queries to extract specific information and organize results.
 
 ### Basic SELECT Query
 
@@ -430,6 +447,8 @@ ORDER BY aisle;
 ---
 
 ## 7. Advanced Filtering: IN, Subqueries, & LIKE
+> 📚 **Purpose**: Utilize complex filtering techniques for sophisticated data retrieval.
+> 🎯 **Goal**: Implement pattern matching and nested queries to handle elaborate search criteria.
 
 ### The IN Operator
 
@@ -552,6 +571,8 @@ SELECT title FROM songs WHERE artist IN (
 ---
 
 ## 8. Aggregating Data: GROUP BY & HAVING
+> 📚 **Purpose**: Summarize large datasets by grouping related information and calculating metrics.
+> 🎯 **Goal**: Perform statistical analysis across data categories to derive high-level insights.
 
 Aggregation allows you to summarize data by grouping rows and performing calculations across those groups.
 
@@ -653,6 +674,8 @@ HAVING avg_words > 150000;
 ---
 
 ## 9. Conditional Logic: The CASE Statement
+> 📚 **Purpose**: Apply conditional logic directly within SQL queries to categorize or transform data.
+> 🎯 **Goal**: Create virtual columns and labels based on specific data values.
 
 SQL allows you to perform calculations and apply conditional logic within your queries using math operators and the `CASE` statement.
 
@@ -761,7 +784,396 @@ GROUP BY letter_grade;
 
 ---
 
-## 10. Roles in the Ecosystem
+## 10. JOINing Related Tables
+> 📚 **Purpose**: Learn how to combine data from multiple related tables to create comprehensive result sets.
+> 🎯 **Goal**: Master implicit and explicit JOIN syntax to link datasets and perform multi-table analysis.
+
+In most professional databases, data is split across multiple tables to reduce redundancy (Normalization). To get a complete picture, you must "join" these tables back together.
+
+### 10.1 Scenario: Students and Grades
+Imagine a database with two related tables:
+1.  **`students`**: Detailed info (name, email) with an `id`.
+2.  **`student_grades`**: Test results linked to students via `student_id`.
+
+```sql
+CREATE TABLE students (id INTEGER PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT);
+
+INSERT INTO students (first_name, last_name, email)
+    VALUES ("Peter", "Rabbit", "peter@rabbit.com");
+INSERT INTO students (first_name, last_name, email)
+    VALUES ("Alice", "Wonderland", "alice@wonderland.com");
+    
+CREATE TABLE student_grades (id INTEGER PRIMARY KEY,
+    student_id INTEGER,
+    test TEXT,
+    grade INTEGER);
+
+INSERT INTO student_grades (student_id, test, grade)
+    VALUES (1, "Nutrition", 95);
+INSERT INTO student_grades (student_id, test, grade)
+    VALUES (2, "Nutrition", 92);
+```
+
+### 10.2 The Cross Join
+The simplest join is a **Cross Join**, which pairs every row of the first table with every row of the second.
+
+```sql
+/* Cross Join Syntax */
+SELECT * FROM student_grades, students;
+```
+**Result**: If you have 2 students and 4 grades, you get 8 rows. While simple, it's rarely useful because it matches unrelated data.
+
+### 10.3 Implicit Inner Join
+To only see grades next to the correct student, we can use an **Implicit Inner Join** by adding a `WHERE` clause.
+
+```sql
+/* Implicit Inner Join */
+SELECT * FROM student_grades, students
+    WHERE student_grades.student_id = students.id;
+```
+This filters the cross join to only show rows where the IDs match.
+
+### 10.4 Explicit Inner Join (Best Practice)
+The professional way to link tables is the **Explicit Inner Join** using the `JOIN` and `ON` keywords.
+
+```sql
+/* Explicit Inner Join */
+SELECT students.first_name, students.last_name, students.email, student_grades.test, student_grades.grade 
+FROM students
+JOIN student_grades
+ON students.id = student_grades.student_id;
+```
+
+### 10.5 Filtering Joined Results
+Once tables are joined, you can still use `WHERE`, `ORDER BY`, and `GROUP BY`.
+
+```sql
+/* Finding high-achievers */
+SELECT students.first_name, student_grades.grade 
+FROM students
+JOIN student_grades ON students.id = student_grades.student_id
+WHERE student_grades.grade > 90;
+```
+
+### 10.6 Pro-Tip: Column Prefixing
+If multiple tables have columns with the same name (like a `grade` column in `students` for their overall GPA), SQL won't know which one to pick. **Always prefix your columns** with the table name for clarity and safety.
+
+`students.first_name` vs `student_grades.grade`
+
+### 10.7 Case Study: Persons & Hobbies
+This example demonstrates a many-to-one relationship where multiple hobbies can be linked to a single person.
+
+```sql
+/* 1. Setup Tables */
+CREATE TABLE persons (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    age INTEGER);
+    
+INSERT INTO persons (name, age) VALUES ("Bobby McBobbyFace", 12);
+INSERT INTO persons (name, age) VALUES ("Lucy BoBucie", 25);
+INSERT INTO persons (name, age) VALUES ("Banana FoFanna", 14);
+INSERT INTO persons (name, age) VALUES ("Shish Kabob", 20);
+INSERT INTO persons (name, age) VALUES ("Fluffy Sparkles", 8);
+INSERT INTO persons (name,age) VALUES ("Funky Toes",51);
+
+CREATE table hobbies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person_id INTEGER,
+    name TEXT);
+    
+INSERT INTO hobbies (person_id, name) VALUES (1, "drawing");
+INSERT INTO hobbies (person_id, name) VALUES (1, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (2, "dancing");
+INSERT INTO hobbies (person_id, name) VALUES (2, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (3, "skating");
+INSERT INTO hobbies (person_id, name) VALUES (3, "rowing");
+INSERT INTO hobbies (person_id, name) VALUES (3, "drawing");
+INSERT INTO hobbies (person_id, name) VALUES (4, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (4, "dilly-dallying");
+INSERT INTO hobbies (person_id, name) VALUES (4, "meowing");
+INSERT INTO hobbies (person_id, name) VALUES (5, "yodeling");
+
+/* 2. Execute JOIN to associate Names with Hobbies */
+SELECT persons.name, hobbies.name
+FROM persons, hobbies
+WHERE persons.id = hobbies.person_id;
+```
+
+---
+
+## 11. OUTER JOINs
+> 📚 **Purpose**: Understand how to retain records that don't have matching keys in joined tables.
+> 🎯 **Goal**: Master `LEFT OUTER JOIN` to create comprehensive reports that include "missing" or unlinked data.
+
+While `INNER JOIN` is useful for finding matching records, it often hides data that doesn't have a direct link. `OUTER JOIN`s solve this by ensuring certain rows are kept even if there is no match in the other table.
+
+### 11.1 The "Missing Alice" Problem
+Imagine we have our `students` table and a new `student_projects` table.
+
+```sql
+CREATE TABLE student_projects (id INTEGER PRIMARY KEY,
+    student_id INTEGER,
+    title TEXT);
+    
+INSERT INTO student_projects (student_id, title)
+    VALUES (1, "Carrotapault");
+```
+
+If we run an `INNER JOIN` to see names and projects:
+```sql
+SELECT students.first_name, student_projects.title
+FROM students
+JOIN student_projects
+ON students.id = student_projects.student_id;
+```
+**Result**: We only see "Peter" and his "Carrotapault". **Alice disappears** because she doesn't have a project yet.
+
+### 11.2 Using LEFT OUTER JOIN
+A `LEFT OUTER JOIN` tells SQL to keep every row from the "left" table (the one after the `FROM` keyword) even if there is no matching record in the "right" table.
+
+```sql
+/* Retain every student, even those without projects */
+SELECT students.first_name, students.last_name, student_projects.title
+FROM students
+LEFT OUTER JOIN student_projects
+ON students.id = student_projects.student_id;
+```
+**Result**: Alice now appears in the list, with a `NULL` value for the project title. This is much better for comprehensive reporting.
+
+### 11.3 Other Outer Join Types
+- **RIGHT OUTER JOIN**: Keeps everything from the "right" table. (In many environments like SQLite, you can achieve this by just swapping the table order in a `LEFT JOIN`).
+- **FULL OUTER JOIN**: Keeps rows from both tables, filling in `NULL`s on either side where no match exists.
+
+> 💡 **Adaptability**: Not every SQL environment supports every type of join (e.g., SQLite doesn't support `RIGHT` or `FULL` natively). Learning to adapt your tools to your specific database environment is a key skill for any developer.
+
+### 11.4 Case Study: Customer Orders (Aggregation with OUTER JOIN)
+This challenge demonstrates how to combine `LEFT JOIN` with aggregate functions like `SUM()` and `GROUP BY` to generate a financial summary for all customers, even those without orders.
+
+```sql
+/* 1. Setup Tables */
+CREATE TABLE customers (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT,
+    email TEXT);
+    
+INSERT INTO customers (name, email) VALUES ("Doctor Who", "doctorwho@timelords.com");
+INSERT INTO customers (name, email) VALUES ("Harry Potter", "harry@potter.com");
+INSERT INTO customers (name, email) VALUES ("Captain Awesome", "captain@awesome.com");
+
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    customer_id INTEGER,
+    item TEXT,
+    price REAL);
+
+INSERT INTO orders (customer_id, item, price)
+    VALUES (1, "Sonic Screwdriver", 1000.00);
+INSERT INTO orders (customer_id, item, price)
+    VALUES (2, "High Quality Broomstick", 40.00);
+INSERT INTO orders (customer_id, item, price)
+    VALUES (1, "TARDIS", 1000000.00);
+
+/* 2. Detailed Join (See every order) */
+SELECT customers.name, customers.email, orders.item, orders.price
+FROM customers
+LEFT JOIN orders
+ON customers.id = orders.customer_id;
+
+/* 3. Aggregated Join (One row per customer with total spent) */
+-- Goal: Sort by total money spent, most to least.
+SELECT 
+   customers.name,
+   customers.email,
+   SUM(orders.price) AS total_spent
+FROM customers
+LEFT JOIN orders ON customers.id = orders.customer_id
+GROUP BY customers.id
+ORDER BY total_spent DESC;
+```
+
+---
+
+## 12. Self Joins
+> 📚 **Purpose**: Explain how to relate records within the same table by joining it with itself.
+> 🎯 **Goal**: Master the use of table aliases to resolve column ambiguity in self-referential relationships.
+
+A **Self Join** occurs when you join a table to itself. This is useful when a column in a table refers to another column in the same table (e.g., an `employee_id` referring to a `manager_id`).
+
+### 12.1 Scenario: Student Buddies
+Imagine our `students` table has a `buddy_id` column that refers to the `id` of another student in the same table.
+
+```sql
+CREATE TABLE students (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT,
+    buddy_id INTEGER);
+
+INSERT INTO students VALUES (1, "Peter", "Rabbit", "peter@rabbit.com", 2);
+INSERT INTO students VALUES (2, "Alice", "Wonderland", "alice@wonderland.com", 1);
+INSERT INTO students VALUES (3, "Aladdin", "Lampland", "aladdin@lampland.com", 4);
+INSERT INTO students VALUES (4, "Simba", "Kingston", "simba@kingston.com", 3);
+```
+
+### 12.2 The Challenge: Column Ambiguity
+If we try to join `students` with `students`, SQL will return an error stating that column names like `first_name` are **ambiguous** because they exist in both "versions" of the table.
+
+### 12.3 Solution: Table Aliases
+To distinguish between the two instances of the same table, we give them **Aliases** (nicknames).
+
+```sql
+/* Self Join: Link students to their buddies */
+SELECT 
+    students.first_name, 
+    students.last_name, 
+    buddies.email AS buddy_email
+FROM students
+JOIN students buddies
+ON students.buddy_id = buddies.id;
+```
+
+**How it works**:
+1.  We refer to the first instance simply as `students`.
+2.  We refer to the second instance as `buddies` using the syntax `JOIN students buddies`.
+3.  The `ON` clause links the `buddy_id` from the primary side to the `id` of the aliased side.
+
+### 12.4 Case Study: Harry Potter Movies (Self OUTER JOIN)
+This advanced example demonstrates combining a **Self Join** with an **Outer Join**. We want to list every movie next to its sequel, even if it's the final movie in the series (which has no sequel).
+
+```sql
+/* 1. Setup Table */
+CREATE TABLE movies (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    released INTEGER,
+    sequel_id INTEGER);
+
+INSERT INTO movies VALUES (1, "HP and the Philosopher's Stone", 2001, 2);
+INSERT INTO movies VALUES (2, "HP and the Chamber of Secrets", 2002, 3);
+INSERT INTO movies VALUES (3, "HP and the Prisoner of Azkaban", 2004, 4);
+INSERT INTO movies VALUES (4, "HP and the Goblet of Fire", 2005, 5);
+INSERT INTO movies VALUES (5, "HP and the Order of the Phoenix", 2007, 6);
+INSERT INTO movies VALUES (6, "HP and the Half-Blood Prince", 2009, 7);
+INSERT INTO movies VALUES (7, "HP and the Deathly Hallows – Part 1", 2010, 8);
+INSERT INTO movies VALUES (8, "HP and the Deathly Hallows – Part 2", 2011, NULL);
+
+/* 2. Execute Self OUTER JOIN */
+-- We use LEFT OUTER JOIN to ensure the final movie (ID 8) is still listed
+SELECT 
+    movies.title, 
+    sequel.title AS sequel_title
+FROM movies
+LEFT OUTER JOIN movies sequel
+  ON movies.sequel_id = sequel.id;
+```
+
+---
+
+## 13. Combining Multiple Joins
+> 📚 **Purpose**: Learn how to connect three or more tables (or the same table multiple times) in a single query.
+> 🎯 **Goal**: Balance query complexity with performance while generating multi-dimensional reports.
+
+In complex databases, the information you need might be scattered across several tables. You can chain as many `JOIN` statements as necessary to bring that data together.
+
+### 13.1 Scenario: Peer Reviews
+Imagine we want students to review each other's projects. We have a `project_pairs` table that simply stores two project IDs.
+
+```sql
+CREATE TABLE project_pairs (id INTEGER PRIMARY KEY,
+    project1_id INTEGER,
+    project2_id INTEGER);
+
+INSERT INTO project_pairs (project1_id, project2_id) VALUES(1, 2);
+INSERT INTO project_pairs (project1_id, project2_id) VALUES(3, 4);
+```
+
+### 13.2 Chaining JOINs with Aliases
+To show the actual **titles** of both projects in the pair, we must join `project_pairs` with `student_projects` **twice**.
+
+```sql
+/* Combine Joins and Self Joins */
+SELECT 
+    a.title AS project1_title, 
+    b.title AS project2_title 
+FROM project_pairs
+JOIN student_projects a ON project_pairs.project1_id = a.id
+JOIN student_projects b ON project_pairs.project2_id = b.id;
+```
+
+**Key Mechanics**:
+1.  **Multiple JOIN Keywords**: Use `JOIN` again for every new connection.
+2.  **Unique Aliases**: We used `a` and `b` to distinguish between the two instances of `student_projects`.
+3.  **Specific ON Clauses**: Each join needs its own logic to link the correct IDs.
+
+### 13.3 Performance Considerations
+While SQL allows for many joins, keep in mind:
+- **Speed**: Every join increases the computational work. More joins generally mean slower queries.
+- **Complexity**: Highly joined queries can become difficult to debug.
+- **Optimization**: We will cover how to analyze and improve query efficiency in future chapters.
+
+### 13.4 Case Study: FriendBook
+This challenge demonstrates joining personal profile data with activity logs in a social networking context.
+
+```sql
+/* 1. Setup Tables */
+CREATE TABLE persons (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    fullname TEXT,
+    age INTEGER);
+    
+INSERT INTO persons (fullname, age) VALUES ("Bobby McBobbyFace", "12");
+INSERT INTO persons (fullname, age) VALUES ("Lucy BoBucie", "25");
+INSERT INTO persons (fullname, age) VALUES ("Banana FoFanna", "14");
+INSERT INTO persons (fullname, age) VALUES ("Shish Kabob", "20");
+INSERT INTO persons (fullname, age) VALUES ("Fluffy Sparkles", "8");
+
+CREATE table hobbies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person_id INTEGER,
+    name TEXT);
+    
+INSERT INTO hobbies (person_id, name) VALUES (1, "drawing");
+INSERT INTO hobbies (person_id, name) VALUES (1, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (2, "dancing");
+INSERT INTO hobbies (person_id, name) VALUES (2, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (3, "skating");
+INSERT INTO hobbies (person_id, name) VALUES (3, "rowing");
+INSERT INTO hobbies (person_id, name) VALUES (3, "drawing");
+INSERT INTO hobbies (person_id, name) VALUES (4, "coding");
+INSERT INTO hobbies (person_id, name) VALUES (4, "dilly-dallying");
+INSERT INTO hobbies (person_id, name) VALUES (4, "meowing");
+
+CREATE table friends (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    person1_id INTEGER,
+    person2_id INTEGER);
+
+INSERT INTO friends (person1_id, person2_id) VALUES (1, 4);
+INSERT INTO friends (person1_id, person2_id) VALUES (2, 3);
+
+/* Step 1: Execute JOIN to show Names with Hobbies */
+SELECT persons.fullname AS names, hobbies.name AS hobby_name
+FROM persons
+JOIN hobbies ON persons.id = hobbies.person_id;
+
+/* Step 2: Advanced Multi-Join to resolve Friend Pairs */
+-- We join 'friends' with 'persons' TWICE using aliases 'a' and 'b'
+SELECT 
+    a.fullname AS person1, 
+    b.fullname AS person2 
+FROM friends
+JOIN persons a ON friends.person1_id = a.id
+JOIN persons b ON friends.person2_id = b.id;
+```
+
+---
+
+## 14. Roles in the Ecosystem
+> 📚 **Purpose**: Identify the various professional roles that interact with database systems.
+> 🎯 **Goal**: Understand how data modelers, DBAs, and engineers collaborate within a data environment.
 
 In a real-world company (like an exercise app with thousands of users), different team members use SQL for various purposes.
 
@@ -786,7 +1198,9 @@ Since these roles work together, they often share SQL knowledge. While not every
 
 ---
 
-## 11. Tools & Resources
+## 15. Tools & Resources
+> 📚 **Purpose**: Provide a curated list of software and learning materials for SQL mastery.
+> 🎯 **Goal**: Equip learners with the necessary tools for practicing and extending their database knowledge.
 
 | Tool | Use Case |
 |------|----------|
@@ -805,6 +1219,8 @@ Since these roles work together, they often share SQL knowledge. While not every
 ---
 
 ## 🛠️ SQL Development Reference
+> 📚 **Purpose**: Offer a concise cheat sheet for common SQL commands and syntax.
+> 🎯 **Goal**: Serve as a quick-access guide during database development and querying tasks.
 
 ### Creating Tables
 ```sql
@@ -882,14 +1298,13 @@ SELECT type, SUM(calories) AS total FROM exercise_logs GROUP BY type HAVING tota
 ```
 
 ### Joining Related Tables
+See [Chapter 10: JOINing Related Tables](#10-joining-related-tables) for detailed examples of Cross, Implicit, and Explicit JOINs.
+
 ```sql
--- Joining related tables
-SELECT customers.name, orders.item FROM customers JOIN orders ON customers.id = orders.customer_id;
-
--- Inner join
-SELECT customers.name, orders.item FROM customers LEFT OUTER JOIN orders ON customers.id = orders.customer_id;
-
--- Outer join (LEFT OUTER JOIN returns all rows from left table, even if no match in right table)
+-- Explicit Inner Join (Best Practice)
+SELECT students.first_name, student_grades.grade 
+FROM students
+JOIN student_grades ON students.id = student_grades.student_id;
 ```
 
 ### Joins and Set Operations
@@ -926,11 +1341,13 @@ DELETE FROM customers WHERE id = 73;
 
 ---
 
-## 12. Changing rows with UPDATE and DELETE
+## 16. Changing rows with UPDATE and DELETE
+> 📚 **Purpose**: Explain the mechanisms for modifying or removing existing data records.
+> 🎯 **Goal**: Safely update information and manage deletions while maintaining data integrity.
 
 Modifying existing data is a core part of application development. Whether a user is correcting a typo in a diary entry or deleting their account, you need commands that target specific rows safely.
 
-### 12.1 Scenario: The Diary App
+### 16.1 Scenario: The Diary App
 Imagine a basic setup with a `users` table and a `diary_logs` table.
 
 ```sql
@@ -946,7 +1363,7 @@ CREATE TABLE diary_logs (
     );
 ```
 
-### 12.2 Updating Records (UPDATE)
+### 16.2 Updating Records (UPDATE)
 When a user wants to modify a log they've already submitted, we use the `UPDATE` statement.
 
 **Crucial Rule**: Always use a `WHERE` clause with `UPDATE`. If you don't, the database will update **every single row** in the table with the new content.
@@ -963,7 +1380,7 @@ UPDATE diary_logs SET content = "I had a horrible fight with OhNoesGuy" WHERE id
 **Why use IDs?**
 While you could filter by `user_id` or `date`, using the **Primary Key (ID)** is the safest method. It ensures you target exactly one unique row, even if a user has multiple logs on the same day.
 
-### 12.3 Deleting Records (DELETE)
+### 16.3 Deleting Records (DELETE)
 If a user wants to remove an entry entirely, we use the `DELETE` command.
 
 ```sql
@@ -974,7 +1391,7 @@ DELETE FROM diary_logs WHERE id = 1;
 SELECT * FROM diary_logs;
 ```
 
-### 12.4 Industry Tip: Soft Deletes
+### 16.4 Industry Tip: Soft Deletes
 In many professional applications, data is rarely "truly" deleted. Instead, developers use a **"Soft Delete"** strategy:
 1.  Add a `deleted` column (Boolean) to the table.
 2.  When a user "deletes" a row, run an `UPDATE` to set `deleted = TRUE`.
@@ -987,11 +1404,13 @@ With `SELECT`, `INSERT`, `UPDATE`, and `DELETE`, you now have the "Big Four" com
 
 ---
 
-## 13. Altering tables after creation
+## 17. Altering tables after creation
+> 📚 **Purpose**: Demonstrate how to modify the structure of existing tables without losing data.
+> 🎯 **Goal**: Evolve database schemas to accommodate new requirements using the ALTER command.
 
 In a real production environment, you cannot simply edit a `CREATE TABLE` statement once it has been executed and data has been collected. Re-running a `CREATE` statement would typically require dropping the existing table, which causes the permanent loss of all user data. To modify a table's structure safely, we use the `ALTER TABLE` command.
 
-### 13.1 Scenario: Evolving the Diary App
+### 17.1 Scenario: Evolving the Diary App
 Imagine that a few months after launching the diary app, a designer suggests adding an emotion drop-down (Happy, Sad, Confused) to each entry. To store this, we need to add a new `emotion` column without deleting existing logs.
 
 ```sql
@@ -1023,11 +1442,11 @@ INSERT INTO diary_logs (user_id, date, content, emotion) VALUES (1, "2015-04-03"
 SELECT * FROM diary_logs;
 ```
 
-### 13.2 Default Values vs. NULL
+### 17.2 Default Values vs. NULL
 - **The NULL Problem**: If we added the column without a default, the first row (the ice cream celebration) would show `NULL` for emotion.
 - **The DEFAULT Solution**: By specifying `default "unknown"`, the database automatically fills existing rows with that value, making it easier for the app to handle.
 
-### 13.3 Deleting Tables (DROP TABLE)
+### 17.3 Deleting Tables (DROP TABLE)
 You can remove an entire table using `DROP TABLE`. This is rarely done except during data migrations or testing.
 
 **Warning**: This is a nuclear option. Once a table is dropped, all its data and its schema are gone forever. If you try to `SELECT` from it afterwards, you will get an error because the table no longer exists.
@@ -1038,14 +1457,16 @@ You can remove an entire table using `DROP TABLE`. This is rarely done except du
 
 ---
 
-## 14. Database Administration & Safety
+## 18. Database Administration & Safety
+> 📚 **Purpose**: Discuss best practices for data security, backups, and access control.
+> 🎯 **Goal**: Ensure the long-term reliability and protection of database systems.
 
-### 14.1 Backups & Replication
+### 18.1 Backups & Replication
 Even with careful coding, hardware failures or human errors occur.
 - **Backups**: Companies make hourly, daily, or weekly copies of the database. If data is lost, it can be imported from an older version.
 - **Replication**: Storing multiple copies of the database in different physical locations. This ensures **Availability**—if one server is hit by lightning, queries are redirected to a surviving copy.
 
-### 14.2 Granting Privileges (Access Control)
+### 18.2 Granting Privileges (Access Control)
 In professional environments (shared servers), access is controlled via users and privileges.
 - **Principle of Least Privilege**: Only give users the minimum access they need.
     ```sql
@@ -1059,7 +1480,9 @@ In professional environments (shared servers), access is controlled via users an
 
 ---
 
-## 15. Next Steps
+## 19. Next Steps
+> 📚 **Purpose**: Define a clear progression path for continuing SQL and database education.
+> 🎯 **Goal**: Transition from basic queries to advanced optimization and architectural design.
 
 ### Immediate Goals
 - ✅ Practice CREATE TABLE and INSERT commands
@@ -1069,12 +1492,14 @@ In professional environments (shared servers), access is controlled via users an
 - ✅ Master IN, Subqueries, and LIKE
 - ✅ Master CASE statements and math operators
 - ✅ Master data manipulation (UPDATE/DELETE)
-- ✅ Practice JOIN operations
+- ✅ Practice JOIN operations (Cross, Implicit, Explicit)
+- ✅ Master OUTER JOINs (LEFT OUTER JOIN)
+- ✅ Master Self Joins (Using Aliases)
+- ✅ Master Combining Multiple Joins
 - ✅ Learn aggregation functions
 - ✅ Explore advanced query techniques
 
 ### Intermediate Goals
-- Learn JOIN operations
 - Master UPDATE and DELETE commands
 - Work with aggregation functions (COUNT, SUM, AVG)
 
@@ -1093,6 +1518,8 @@ In professional environments (shared servers), access is controlled via users an
 ---
 
 ## 💡 Key Takeaways
+> 📚 **Purpose**: Summarize the most critical concepts covered in the roadmap.
+> 🎯 **Goal**: Reinforce essential knowledge for quick review and retention.
 
 1. **Databases store data** in tables with rows and columns
 2. **SQL queries** help you retrieve, modify, and analyze data
@@ -1105,6 +1532,8 @@ In professional environments (shared servers), access is controlled via users an
 ---
 
 ## 📝 Learning Progress
+> 📚 **Purpose**: Provide a checklist for tracking advancement through the database roadmap.
+> 🎯 **Goal**: Maintain a clear record of mastered topics and remaining learning goals.
 
 - [x] Basics of DBMS and SQL
 - [x] Database Development Lifecycle (DBLC)
@@ -1121,7 +1550,11 @@ In professional environments (shared servers), access is controlled via users an
 - [x] Aggregation functions (GROUP BY, HAVING)
 - [x] UPDATE and DELETE commands
 - [x] ALTER and DROP TABLE commands
-- [x] JOIN operations
+- [x] JOINing Related Tables (Cross, Implicit, Explicit)
+- [x] OUTER JOINs (LEFT, conceptual RIGHT/FULL)
+- [x] Self Joins (Using Aliases & Self Outer Joins)
+- [x] Combining Multiple Joins
+- [x] Joins & Set Operations
 - [ ] Indexes and optimization
 - [ ] Advanced SQL topics
 
@@ -1129,8 +1562,7 @@ In professional environments (shared servers), access is controlled via users an
 
 **Created**: 📅 2026-05-23
 **Last Updated**: 📅 2026-06-12
-**Version**: 2.1 (Joins & Set Operations Integrated)
-
+**Version**: 3.0 (Milestone: Complex Multi-Joins Completed)
 ---
 
 > 🚀 **Keep Learning**: SQL is essential for data science. Practice regularly and explore different use cases!

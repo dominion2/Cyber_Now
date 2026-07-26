@@ -1,44 +1,54 @@
-# 🧠 Metacognitive Prompting & Prompt Engineering Architecture
+# 🧠 Metacognitive Prompting & The 4-Tier AI Engineering Stack
+## *(Prompt $\rightarrow$ Context $\rightarrow$ Harness $\rightarrow$ Loop Engineering)*
 
-> 💡 *"Prompting is not typing. It is thinking. It is a communication protocol between human intention and machine execution. AI does not reward what you ask; it rewards how you think."*
+> 💡 *"Prompting is not typing. It is thinking. It is a communication protocol between human intention and machine execution. Modern AI engineering evolves from writing single instructions to designing autonomous, self-prompting, self-verifying systems."*
 
 ---
 
-## 🎯 Executive Summary & Philosophy
+## 🎯 Executive Summary: The AI Engineering Evolution
 
-Most individuals approach Large Language Models (LLMs) like search engines: they type short requests (averaging fewer than 9 words), ask for immediate answers, scroll through generic outputs, and attribute poor results to model limitations. 
-
-Modern AI prompt engineering requires shifting from a **Vending Machine Model** (input token $\rightarrow$ output answer) to a **Metacognitive Architecture Model** (co-designing thinking frameworks, context, and sequential roadmaps).
+As AI capabilities expand, human interaction with LLMs has evolved across four distinct engineering paradigms. Understanding these four tiers—and how metacognition binds them together—allows you to achieve complex project goals with **minimal human prompting**.
 
 ```mermaid
 graph TD
-    A[Human Intention] --> B{Prompting Approach}
-    B -->|Vending Machine Model| C[Short Command < 9 words]
-    C --> D[Generic / Default Output]
-    
-    B -->|Metacognitive Architecture| E[First Principles Framing]
-    E --> F[Prompt Chaining & Layering]
-    F --> G[Metaprompting & Backward Design]
-    G --> H[Precision Outcome & Scalable System]
+    SubGraph1[Tier 1: Prompt Engineering] -->|Needs Context Control| SubGraph2[Tier 2: Context Engineering]
+    SubGraph2 -->|Needs System Sandbox & External State| SubGraph3[Tier 3: Harness Engineering]
+    SubGraph3 -->|Needs Autonomous Self-Prompting| SubGraph4[Tier 4: Loop Engineering]
+
+    subgraph "The 4-Tier Hierarchy"
+        SubGraph1["<b>Tier 1: Prompt Engineering</b><br/>Role, Task, Constraints, Exemplars"]
+        SubGraph2["<b>Tier 2: Context Engineering</b><br/>Write, Select, Compress, Isolate"]
+        SubGraph3["<b>Tier 3: Harness Engineering</b><br/>Sandbox, MCP, Tools, Test Run, External Backlog"]
+        SubGraph4["<b>Tier 4: Loop Engineering</b><br/>Automation, Worktrees, Subagents, Skills, State"]
+    end
 ```
 
-### Core Shift: Typing vs. Thinking
+### The 4-Tier Engineering Matrix
 
-| Dimension | Search / Default Prompting | Metacognitive Prompting |
-| :--- | :--- | :--- |
-| **Mindset** | Asking for raw answers / shortcuts | Designing a result in your head and architecting context |
-| **Interaction** | Single-turn, overloaded command | Multi-turn cognitive scaffolding & prompt chaining |
-| **AI Role** | Answer vending machine | Thinking partner, co-strategist, and execution engine |
-| **Leverage Point** | Doing more queries | Defining outcomes with extreme clarity |
-| **Failure Mode** | Vague context $\rightarrow$ Generic outputs | Missing validation criteria $\rightarrow$ Hallucinated defaults |
+| Tier | Primary Focus | Key Mechanism | System Scope | Human Role |
+| :--- | :--- | :--- | :--- | :--- |
+| **1. Prompt Engineering** | Micro-Level Instructions | Roles, Few-Shot, System Rules | Single-turn / Short conversation | Command typist |
+| **2. Context Engineering** | Context Window Hygiene | Write, Select, Compress, Isolate | Multi-turn tool execution window | Context monitor |
+| **3. Harness Engineering** | Environment & Sandbox Rails | Tool Runtimes, MCP, Lints, External Backlog | System environment & filesystems | Workflow architect |
+| **4. Loop Engineering** | Autonomous Self-Prompting | Self-guided loops, Worktrees, Subagents, Skills | Recurring, autonomous system | Strategic overseer |
 
 ---
 
-## 🏗️ 1. First Principles Thinking in Prompting (The Grammar)
+## 🏗️ Section I: Metacognition & First Principles in Prompting
 
-First principles thinking—championed from Aristotle to Charlie Munger and Elon Musk—involves breaking complex problems down to their irreducible components (truths free of assumption) and rebuilding from the ground up.
+### 1. What is Metacognition in Prompting?
+**Metacognition** is *"thinking about thinking."* In AI prompt design, metacognition means stepping back from task execution to architect the **information flow, mental model, and decision pathways** that the AI will follow.
 
-In prompt engineering, **First Principles is the grammar**. Where untrained users copy-paste generic internet templates, first-principles prompt architects construct custom prompts by defining the fundamental **atoms** of the task before writing a single instruction.
+Rather than treating the model like a **Vending Machine** (Input prompt $\rightarrow$ Output text), metacognitive prompting treats the model as a **Co-Architect**, leveraging **Backward Design**:
+1. Define the desired **Target Outcome State**.
+2. Reverse-engineer the **prerequisite context, missing data, and structural constraints**.
+3. Instruct the AI to construct its own execution plan and task backlog.
+
+---
+
+### 2. First Principles & The 6 Irreducible Prompt Atoms
+
+First principles thinking requires stripping a problem down to its fundamental truths. Before writing any master prompt, you must define the **6 Irreducible Prompt Atoms**:
 
 ```
                   ┌─────────────────────────────────────────┐
@@ -58,221 +68,229 @@ In prompt engineering, **First Principles is the grammar**. Where untrained user
                        └──────────────────────────────┘
 ```
 
-### The 6 Irreducible Atoms of a Master Prompt
+1. **🎯 Goal State (Transformation Target)**: The exact state change required (e.g., *"Transform raw API logs into an automated anomaly detection dashboard"*).
+2. **📥 Source Material & Context**: Ground truth documents, database schemas, codebase paths, or style guides.
+3. **⛔ Constraints & Non-Negotiables**: Hard limits on token usage, execution time, formatting, dependencies, and taboo logic.
+4. **⚙️ Process Instructions & Scaffolding**: Step-by-step reasoning steps, domain rubrics, or analogies.
+5. **📊 Validation Signals (Quality Benchmark)**: Concrete pass/fail criteria, test suites, lints, or exemplars (*Few-Shot Learning*).
+6. **🔄 Iteration Protocol**: Rules for how the model self-corrects upon encountering errors or failing assertions.
 
 > [!IMPORTANT]
-> If a prompt omits any of these 6 atoms, the AI cannot optimize for what it was never instructed to care about. Missing atoms force the model to fill in the gaps with default assumptions.
-
-1. **🎯 Goal State (Transformation Target)**
-   - The precise state change required. Not just *"write a job post"*, but *"create a high-signal talent filter for a proactive accountant in an AI-first agency"*.
-2. **📥 Source Material & Context**
-   - The exact data, background, business environment, or voice parameters to preserve or transform.
-3. **⛔ Constraints & Non-Negotiables**
-   - Hard boundaries: length limits, tone requirements, taboo concepts, legal compliance, or formatting rules.
-4. **⚙️ Process Instructions & Scaffolding**
-   - Step-by-step reasoning paths, rubrics to follow, or analogies to utilize during generation.
-5. **📊 Validation Signals (Quality Benchmark)**
-   - Concrete examples (*few-shot prompting*), expected schemas, or evaluation checklists defining *"what great looks like"*.
-6. **🔄 Iteration Protocol**
-   - Instructions on how feedback should be incorporated, how edge cases are handled, and how corrections should be surfaced.
+> Omitting any of these 6 atoms forces the model to fall back on generic default assumptions, leading to context rot and low-signal outputs.
 
 ---
 
-### Case Study: Naive vs. First-Principles Job Specification
+## 🔬 Section II: The 4-Tier AI Engineering Hierarchy
 
-```diff
-- NAIVE PROMPT:
-- Write a job description for an accountant in a small agency.
+---
 
-+ FIRST-PRINCIPLES PROMPT:
-+ Write a job description for an accountant joining a fast-moving media company 
-+ where AI is heavily integrated into all operations. 
-+ Role Scope: Outcome ownership over financial tracking, automation oversight, and cash flow forecasting.
-+ Tone: Human, direct, and appealing to proactive, detail-oriented professionals.
-+ Culture: Include three unique culture differentiators reflecting a lean, intelligent team.
-+ Constraints: Avoid corporate jargon, buzzwords, or passive bullet points.
+### 🔹 Tier 1: Prompt Engineering (Instruction Crafting)
+
+Prompt engineering focuses on phrasing, role definition, formatting, and structural constraints inside a single prompt payload.
+
+#### Core Components:
+* **System Role & Persona**: Setting domain expertise (*"You are a Principal Software Architect"*).
+* **Few-Shot Exemplars**: Providing input-output pairs to anchor formatting and tone.
+* **Negative Constraints**: Specifying explicit prohibitions (*"Do not use external libraries outside the standard library"*).
+* **Output Formatting**: Enforcing structured formats (JSON, Markdown, YAML schemas).
+
+#### Limitation:
+Prompt engineering is stateless. When tasks exceed 5-10 turns, static prompt instructions become diluted by accumulating conversation history, leading to **context rot**.
+
+---
+
+### 🔹 Tier 2: Context Engineering (Context Window Management)
+
+Context engineering is the discipline of designing the entire dynamic information system around the model—controlling what tokens enter, stay, and get pruned from the context window at every step of an agentic workflow.
+
+```
+       ┌─────────────────────────────────────────────────────────────┐
+       │                THE CONTEXT WINDOW (FINITE CAPACITY)          │
+       ├─────────────────────────────────────────────────────────────┤
+       │  [System Prompt & Rules] ────> PINNED (Never Pruned)         │
+       │  [Goal State & Backlog]  ────> PINNED (Never Pruned)         │
+       ├─────────────────────────────────────────────────────────────┤
+       │  [Transient Tool Outputs] ──> PRUNED / COMPACTED PERIODICALLY│
+       │  [Raw Bash / File Dumps] ──> SUMMARIZED TO ARTIFACTS         │
+       └─────────────────────────────────────────────────────────────┘
 ```
 
+#### The 4 Core Context Engineering Strategies:
+
+1. **💾 Write (Persistence)**:
+   - Persisting critical state outside the active context window into markdown files, scratchpads, or database logs (e.g., `CLAUDE.md`, `RESEARCH_NOTES.md`, `tasks.json`).
+   - Prevents catastrophic forgetting when the context window is reset or compacted.
+
+2. **🔍 Select (Just-In-Time Retrieval)**:
+   - Dynamically retrieving only the information relevant to the current step, rather than dumping entire codebases or databases into context.
+   - Utilizes indexing, vector search (RAG), or selective file reading.
+
+3. **🧹 Compress (Summarization & Pruning)**:
+   - Truncating or summarizing old, high-token tool outputs (e.g., raw search results or long compiler logs) once the agent has extracted the core finding.
+   - Maintaining context utility while reducing token bloat.
+
+4. **🛡️ Isolate (Context Boundary Separation)**:
+   - Spawning isolated subagents with clean context windows for distinct phases (e.g., Research Subagent $\rightarrow$ Writes Artifact $\rightarrow$ Reset Context $\rightarrow$ Implementation Subagent).
+   - Eliminates context contamination where noisy research logs pollute code generation phases.
+
 ---
 
-## 🔗 2. Cognitive Scaffolding & Prompt Chaining (Chain of Thought)
+### 🔹 Tier 3: Harness Engineering (Runtime Sandbox & System Rails)
 
-Real intelligence is not instant recollection; it is **mental architecture**—the ability to frame, sequence, and adapt thinking under uncertainty.
-
-Rather than squeezing complex deliverables into a single, overloaded prompt, metacognitive prompting uses **Prompt Chaining** (cognitive scaffolding). This technique layers sequential inputs, allowing each step to build context and refine clarity.
+Harness engineering builds the external environment, control architecture, and safety scaffolding that wraps the LLM runtime. While context engineering manages what the model *sees*, harness engineering manages what the model *can do and measure*.
 
 ```mermaid
-sequenceDiagram
-    participant User as Human Architect
-    participant AI as AI Co-Pilot
-
-    User->>AI: Step 1: Diagnose customer psychology & pain points
-    AI-->>User: Outputs 3 key customer emotional states
-    User->>AI: Step 2: Formulate strategic messaging to solve state #1
-    AI-->>User: Outputs clarity & trust transformation framework
-    User->>AI: Step 3: Write onboarding Email 1 executing this framework
-    AI-->>User: Outputs highly tailored, empathetic Email 1
-    User->>AI: Step 4: Suggest automation workflow to increase response rate
-    AI-->>User: Outputs complete technical & strategic automation roadmap
+graph LR
+    LLM[LLM Engine] <--> Harness[Coding / Execution Harness]
+    Harness <--> Tools[Tools & MCP Servers]
+    Harness <--> Sandbox[Isolated Sandbox / Worktree]
+    Harness <--> Verifier[Compiler / Test Runner / Linter]
+    Verifier -- Ground Truth Feedback --> Harness
 ```
 
-### Framing vs. Refining
-
-* **First Principles**: Establishes the **Macro-Frame** (the boundaries, atoms, and target destination).
-* **Chain of Thought / Prompt Chaining**: Executes the **Refinement Layer** (building depth iteratively through structured dialogue).
+#### Key Capabilities of Harness Engineering:
+* **Tool Runtimes & MCP (Model Context Protocol)**: Providing standardized interfaces for file editing, shell commands, database queries, and web browsers.
+* **Empirical Feedback Loops**: Intercepting model outputs and running them through real compilers, unit tests, and linters. Ground truth errors are fed back into the model automatically.
+* **External Backlog Management**: Keeping project state, task lists (`tasks.json`), and progress trackers outside the context window so task status never degrades.
+* **Execution Sandboxing**: Restricting shell access, protecting sensitive environment variables, and preventing catastrophic file overwrites.
 
 ---
 
-## 🔮 3. Metacognition & Metaprompting (Thinking About Thinking)
+### 🔹 Tier 4: Loop Engineering (Autonomous Self-Prompting Systems)
 
-**Metacognition** is the practice of examining and architecting one's own thought process. In AI systems, metacognition manifests as **Metaprompting**: using AI to design, structure, and optimize the prompts and processes needed to solve complex challenges.
+Loop engineering wraps an autonomous control loop around the harness layer. It removes the human from the micro-prompting loop by enabling the agent to **prompt itself, evaluate its own progress, delegate to subagents, and recurse until the end goal is achieved**.
 
 ```
-       ┌──────────────────────────────────────────────────────────────┐
-       │                 TRADITIONAL PROMPTING (FORWARD)              │
-       │   Human guesses prompt ──> AI attempts answer ──> Bad result │
-       └──────────────────────────────────────────────────────────────┘
-                                      │
-                                      ▼
-       ┌──────────────────────────────────────────────────────────────┐
-       │              METACOGNITIVE PROMPTING (BACKWARD)              │
-       │   1. Define desired Target Answer/Outcome                    │
-       │   2. Ask AI: "What context & structure do you need?"         │
-       │   3. Co-create optimal roadmap & system prompt               │
-       │   4. Execute with 100% precision                             │
-       └──────────────────────────────────────────────────────────────┘
+    ┌──────────────────────────────────────────────────────────────┐
+    │                     THE AUTONOMOUS LOOP                      │
+    │                                                              │
+    │   1. Read Task Backlog (External State)                      │
+    │   2. Self-Prompt Next Task Objective                         │
+    │   3. Isolated Worktree Execution (Harness)                   │
+    │   4. Run Empirical Tests & Linters                           │
+    │   5. Subagent Verification & Review                          │
+    │   6. Update Memory & Task Backlog                            │
+    │   7. Loop to Next Task until Backlog Empty                    │
+    └──────────────────────────────────────────────────────────────┘
 ```
 
-### The End-Goal & Backward Design Framework
+#### Addi Osmani's 6 Pillars of Loop Engineering:
 
-Instead of guessing how to prompt an AI for a complex objective, **provide the target end-goal / desired answer** to the AI and ask it to reverse-engineer the required inputs and roadmap.
-
-> [!TIP]
-> **The Metacognitive Protocol**:
-> 1. **Specify the Target Answer/Outcome**: Clearly state what final output or system success looks like.
-> 2. **Inquire for Prerequisite Context**: Ask: *"What specific data, business context, constraints, or parameters do you need from me to achieve this exact answer?"*
-> 3. **Architect the Structural Roadmap**: Ask: *"What intermediate steps, reasoning sequence, or subprocesses should we execute to guarantee this outcome?"*
-> 4. **Generate the Optimal Execution Prompt**: Ask: *"Generate the optimal master prompt / prompt chain for this exact workflow."*
-
-### Why Backward Design Produces Coherent Roadmaps
-
-1. **Eliminates Information Deficits**: The AI explicitly highlights missing variables before generation begins.
-2. **Aligns Mental Models**: Ensures the human's vision matches the machine's processing structure.
-3. **Prevents Drift & Hallucination**: Establishing structural milestones anchors the AI's generation path.
+1. **🤖 Automation**: Scheduled tasks, cron triggers, or event-driven execution loops (e.g., automated hourly bug-fix checks or deployment monitoring).
+2. **🌿 Worktrees (Workspace Isolation)**: Utilizing Git worktrees or temporary directories to run parallel sub-tasks without corrupting the main codebase state.
+3. **🧠 Skills & Knowledge Persistence**: Maintaining domain-specific workflow rules (e.g., `SKILL.md` files) that agents load on demand to execute specialized tasks.
+4. **🔌 Plugins & Connectors (MCP)**: Connecting the loop to external services, APIs, databases, and communication channels.
+5. **👥 Subagents & Swarms**: Delegating specific tasks (e.g., code reviewer, security auditor, tester) to dedicated subagents with clean context windows.
+6. **💾 State & Memory Management**: Maintaining cross-session memory, persistent task backlogs, and structural state logs.
 
 ---
 
-## 🎓 4. Google's Prompt Essentials Framework
+## ⚡ Section III: The Unified Metacognitive Minimal-Prompting Method
 
-The **Google Prompt Essentials Framework** (developed by the Google DeepMind & Gemini teams) provides a universal 5-step structure for effective prompt composition across text, image, and multimodal workflows.
+To achieve complex project outcomes with the **least amount of human prompting**, we combine all four tiers into a single, goal-backwards execution framework: **The One-Prompt Autonomous Harness Protocol**.
 
-### The 5-Step Framework (`C-T-R-E-I`)
+### The 5-Phase Execution Protocol
 
-| Step | Component | Description |
-| :---: | :--- | :--- |
-| **1** | **Task** | Clear, direct action verb defining the required generation or analysis. |
-| **2** | **Context** | Background information, persona/role, target audience, and environment. |
-| **3** | **References** | Exemplars, benchmark datasets, or templates (*Few-Shot Learning*). |
-| **4** | **Evaluate** | Assessing output quality against explicit rubrics or validation signals. |
-| **5** | **Iterate** | Refining through prompt adjustments, follow-up chains, or parameter tuning. |
+```mermaid
+flowchart TD
+    P1[Phase 1: Goal-Backwards Metacognitive Blueprint] --> P2[Phase 2: Task Backlog & Harness Setup]
+    P2 --> P3[Phase 3: Context Hygiene & Subagent Delegation]
+    P3 --> P4[Phase 4: Autonomous Empirical Loop]
+    P4 --> P5[Phase 5: Persistent Knowledge Capture & Delivery]
+```
+
+#### Phase 1: Goal-Backwards Metacognitive Blueprinting (Human Prompt 1)
+* The human provides a single comprehensive **Goal-Backwards Master Prompt** defining the final target state, key constraints, and validation criteria.
+* The AI is instructed *not* to start coding immediately, but to reverse-engineer the project requirement, audit missing context, and draft a formal execution plan.
+
+#### Phase 2: Harness & Task Backlog Setup
+* The agent writes a persistent external backlog file (`tasks.json` or `TODO.md`) outside its active context.
+* It sets up empirical validation gates (e.g., unit test templates, build scripts, lint rules).
+
+#### Phase 3: Context Hygiene & Subagent Delegation
+* The agent delegates sub-tasks (e.g., research, schema design) to clean subagents.
+* High-volume research logs are compressed into markdown artifacts, resetting the main context window.
+
+#### Phase 4: Autonomous Empirical Loop (Zero Human Interventions)
+* The agent iterates through `tasks.json` inside isolated worktrees.
+* Each task must pass ground-truth empirical checks (tests/compilers) before being marked complete.
+* If a test fails, the error log triggers an internal self-correction loop without bothering the human.
+
+#### Phase 5: Persistent Knowledge Capture & Final Delivery
+* Upon clearing all backlog tasks, the agent saves reusable workflows as a new `SKILL.md` or memory document.
+* The final deliverable is presented alongside empirical proof of success (passing test suite logs).
 
 ---
 
-## 🛠️ 5. Practical Metacognitive Prompt Templates
+## 📋 Section IV: Universal Master Metaprompt Template
 
-### Template 1: The Backward Design & Roadmap Engine (Metaprompt)
+Copy and paste this template into your AI environment to initiate the **Minimal-Prompting Metacognitive Protocol** for any major project:
 
 ```markdown
-Role: Senior AI Systems Architect & Metacognitive Strategist
+# METAPROMPT: UNIFIED GOAL-BACKWARDS AUTONOMOUS ENGINE
 
-Goal: I want to achieve the following target outcome:
-<TARGET_ANSWER_OR_OUTCOME>
-[Insert the exact desired end result, deliverable, or solution state here]
-</TARGET_ANSWER_OR_OUTCOME>
-
-Before generating the final output, execute the following metacognitive protocol:
-
-1. Context Audit: List 5 specific questions regarding context, constraints, data, or preferences that you need me to answer to ensure 100% precision.
-2. Structural Breakdown: Outline the logical sequence of steps and intermediate milestones required to move from raw input to this final outcome.
-3. Master Prompt Generation: Based on your analysis, write the optimal First-Principles master prompt that I should run to execute this task.
-```
-
----
-
-### Template 2: First-Principles Master Prompt Specifier
-
-```markdown
-Role: [Define Expert Role, e.g., Senior Data Scientist / Executive Copywriter]
-
-Task: [Define Action Verb and Target Deliverable]
+Role: Principal AI Systems Architect & Lead Software Engineer
 
 Goal State:
-- Primary Transformation: [What raw input becomes]
-- Business / Strategic Impact: [What success achieves]
+I want to achieve the following complete project outcome:
+<TARGET_PROJECT_GOAL>
+[Insert detailed description of the final system, feature, or deliverable you want built]
+</TARGET_PROJECT_GOAL>
 
-Context & Source Material:
-- Source Data: [Paste or reference data]
-- Audience Persona: [Target recipient / user]
+Project Constraints & Non-Negotiables:
+- Tech Stack / Standards: [Insert languages, frameworks, or performance constraints]
+- Code Quality: Clean, modular, fully typed, documented, and covered by unit tests.
+- Human Interventions: MINIMAL. Operate autonomously using loop & harness engineering.
 
-Constraints & Boundaries:
-- Length / Format: [e.g., 500 words, markdown table, JSON schema]
-- Tone & Style: [e.g., Authoritative, concise, non-academic]
-- Taboo Elements: [e.g., No buzzwords, no passive voice, no assumptions]
+EXECUTION PROTOCOL (Follow these steps sequentially):
 
-Validation Signals & Quality Rubric:
-- Output must meet the following checklist:
-  [ ] Feature A is explicitly modeled
-  [ ] Edge case B is handled
-  [ ] Format matches reference structure
+PHASE 1: METACOGNITIVE AUDIT & ROADMAP REVERSE-ENGINEERING
+1. Analyze the Target Project Goal from First Principles.
+2. Identify any missing assumptions, ambiguous schemas, or prerequisite context.
+3. Generate a structured backlog file named `tasks.json` with granular, single-responsibility tasks.
+4. Define the empirical pass/fail validation criteria for each task (e.g., build scripts, test suites, linter output).
 
-Instructions:
-Execute the task step-by-step. Show your reasoning before presenting the final output.
+PHASE 2: CONTEXT & HARNESS SETUP
+1. Establish a clean workspace. Persist core project rules into a `PROJECT_RULES.md` file.
+2. Initialize testing harness files before writing application code (Test-Driven Development).
+
+PHASE 3: AUTONOMOUS LOOP EXECUTION
+Iterate through `tasks.json` using the following execution loop:
+  a. Load the next pending task.
+  b. Execute implementation within an isolated context or worktree.
+  c. Run empirical validation commands (tests, builds, lints).
+  d. IF tests fail: Self-diagnose log tracebacks and refactor code until green.
+  e. IF tests pass: Mark task as COMPLETE in `tasks.json`, compress context, and proceed.
+
+PHASE 4: FINAL DELIVERABLE & KNOWLEDGE CAPTURE
+1. Run full project test suite and build verification.
+2. Document architectural decisions in `ARCHITECTURE.md`.
+3. Present final summary with clickable file references and test proof logs.
+
+Begin Phase 1 immediately by auditing the goal and outputting `tasks.json` and `PROJECT_RULES.md`.
 ```
 
 ---
 
-### Template 3: Recursive Chain-of-Thought Refinement Chain
+## 📊 Summary Comparison: Evolution of AI Engineering
 
-```markdown
-Step 1 (Diagnosis):
-"Analyze [Topic/Dataset]. Identify the top 3 core friction points or structural challenges. Do not write solutions yet."
-
-Step 2 (Strategy Mapping):
-"For each of the 3 friction points identified above, formulate 2 distinct strategic interventions based on first principles."
-
-Step 3 (Execution Blueprint):
-"Select the optimal intervention for each point and draft a step-by-step implementation blueprint. Include success metrics."
-
-Step 4 (Metacognitive Review):
-"Evaluate the blueprint against potential failure modes. What edge cases could break this system, and how do we patch them?"
-```
+| Feature | Tier 1: Prompt Eng. | Tier 2: Context Eng. | Tier 3: Harness Eng. | Tier 4: Loop Eng. |
+| :--- | :--- | :--- | :--- | :--- |
+| **Primary Artifact** | String Prompt | Context Window State | Sandbox / MCP / Test Harness | Autonomous Self-Prompting Loop |
+| **Context Management** | None (Single turn) | Write, Select, Compress, Isolate | External Backlog (`tasks.json`) | Cross-Session Memory & State |
+| **Verification** | Human eyeball inspection | Manual output check | Automated Compilers & Test Suites | Subagent Audits & Self-Verification |
+| **Human Prompts Required** | High (50+ micro-prompts) | Moderate (10-15 prompts) | Low (3-5 milestone prompts) | **Minimal (1 Master Metaprompt)** |
+| **Scalability Horizon** | Minutes | 1-2 Hours | Complex Software Features | Full Autonomous Projects & Operations |
 
 ---
 
-## 📊 Summary Matrix: Prompting Evolution
-
-$$\text{Leverage} = \frac{\text{Human Context Clarity} \times \text{Metacognitive Architecture}}{\text{Output Guesswork}}$$
-
-```
-Level 1: Vending Machine (Command-driven)
-  │  └─ "Write an email about product launch"
-  ▼
-Level 2: Structured Context (Framework-driven)
-  │  └─ Task + Persona + Format + Constraints
-  ▼
-Level 3: Cognitive Scaffolding (Chain of Thought)
-  │  └─ Prompt Chaining: Step 1 (Identify) ➔ Step 2 (Formulate) ➔ Step 3 (Execute)
-  ▼
-Level 4: Metacognitive Architecture (Goal-Backwards Metaprompting)
-     └─ "Here is the exact answer state I need. What inputs, structure, and prompt chain do you require to get us there?"
-```
-
----
-
-## 📚 References & Further Study
-- **Video Source**: [Prompting Is Thinking (YouTube)](https://www.youtube.com/watch?v=T6iMHtEL9FU)
-- **Google Professional Specialization**: *Google Prompt Essentials* (Coursera)
+## 📚 References & Video Sources
+- **Prompt Engineering**: [Prompt Engineering Masterclass (YouTube)](https://www.youtube.com/watch?v=2BpCk4d2Cc0)
+- **Context Engineering**: [Context Engineering for AI Agents (YouTube)](https://www.youtube.com/watch?v=-h9VVJIqtvA)
+- **Harness Engineering**: [Engineering Coding Harnesses (YouTube)](https://www.youtube.com/watch?v=KijChx7q2nY)
+- **Loop Engineering**: [Loop Engineering Explained (YouTube)](https://www.youtube.com/watch?v=4biXYSNkn9Y)
 - **Related Vault Notes**:
+  - [[Prompting]]
   - [[Data Wrangling]]
   - [[Python_for_Data_Science_Roadmap]]
   - [[mathematical-ai-roadmap]]
